@@ -1,0 +1,156 @@
+<section class="p-v-50">
+    <div class="md-container">
+
+        <ng-container *ngIf="loading">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </ng-container>
+
+        <div class="plan-section-container" *ngIf="!loading && !finishedPlan">
+            <h1>Welcome to day {{currentDay}} of the {{planId}} program</h1>
+
+            <div class="plan-container">
+                <div class="exercise-data-container">
+                    <ng-container *ngIf="!!planData">
+                        <div class="exercises-container">
+                            <div *ngFor="let exercise of planData.exercises"
+                                [ngClass]="{ 'finishedExercise': exercise.isDone }">
+                                <app-fade-in-animation>
+
+                                    <h3>{{exercise.name}}</h3>
+                                </app-fade-in-animation>
+
+                                <button class="toggleDescription" (click)="toggleDescription(exercise)"><img
+                                        src="assets/icons/info.svg" alt=""></button>
+                                <span *ngIf="exercise.showDescription">{{exercise.description}}</span>
+                                <p>Sets: {{exercise.sets}}</p>
+                                <p>Reps: {{exercise.reps}}</p>
+                                <p>Rest: {{exercise.rest}}</p>
+                                <button class="toggleDoneExercise" [class.changeColor]="exercise.isDone"
+                                    (click)="toggleDoneExercise(exercise)">
+                                    <svg width="40px" height="40px" viewBox="0 0 24 24" fill="gray"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M19.7071 6.29289C20.0976 6.68342 20.0976 7.31658 19.7071 7.70711L10.4142 17C9.63316 17.7811 8.36683 17.781 7.58579 17L3.29289 12.7071C2.90237 12.3166 2.90237 11.6834 3.29289 11.2929C3.68342 10.9024 4.31658 10.9024 4.70711 11.2929L9 15.5858L18.2929 6.29289C18.6834 5.90237 19.3166 5.90237 19.7071 6.29289Z"
+                                            [attr.fill]="exercise.isDone ? '#fff' : ''" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <button (click)="nextDay()">Finish day {{currentDay}} <img src="assets/icons/arrow-right.svg"
+                            alt=""></button>
+
+                </div>
+
+
+                <div class="sidebar-container">
+                    <div class="notes-data-container">
+                        <div class=" new-note-container">
+                            <div class="note_text">
+                                <h3>Plan notes </h3>
+                                <img src="assets/icons/notes.svg" alt="">
+                            </div>
+
+                            <button (click)="toggleNoteContainer()"><img
+                                    src="{{toggleShowingNotes ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                    alt=""></button>
+                        </div>
+
+                        <div class="note-form-container" *ngIf="toggleShowingNotes">
+                            <app-fade-in-animation style="width: 100%;">
+
+                                <div class="notes-container">
+                                    <div class="notes-item" *ngFor="let item of notes">
+                                        <p>{{item.title}}</p>
+                                        <span>{{item.content}}</span>
+                                    </div>
+                                </div>
+
+                                <button style="margin-top: 10px;" (click)="toggleNewNoteToggle()"><img
+                                        src="{{newNoteToggle ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                        alt=""></button>
+
+
+                                <ng-container *ngIf="newNoteToggle">
+                                    <form [formGroup]="notesForm" (ngSubmit)="onSubmitNewNoteForm()">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Title</mat-label>
+                                            <input matInput placeholder="Title" formControlName="title">
+                                            <mat-icon matSuffix>icon</mat-icon>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Content</mat-label>
+                                            <input matInput placeholder="Title" formControlName="content">
+                                            <mat-icon matSuffix>icon</mat-icon>
+                                        </mat-form-field>
+
+                                        <button type="submit">Add Note</button>
+                                    </form>
+                                </ng-container>
+                            </app-fade-in-animation>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="progress-section">
+                        <div class="progress-text">
+                            <h3>Progress <img src="assets/icons/progression.svg" alt=""></h3>
+
+                            <button (click)="toggleProgressContainer()"><img
+                                    src="{{toggleShowingProgress ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                    alt=""></button>
+                        </div>
+
+                        <ng-container *ngIf="toggleShowingProgress">
+                            <div class="progress-container">
+                                <app-progress></app-progress>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div *ngIf="finishedPlan">
+            <h2>
+                Congratulations, Champion!
+            </h2>
+            <p>
+                You did it! 🎉 You've successfully completed your 30-day gym plan, and we couldn't be more proud of your
+                dedication and hard work.
+            </p>
+            <p>
+                This is a remarkable milestone on your fitness journey, and it's just the beginning of your continued
+                success. You've proven that with determination and consistency, you can achieve anything you set your
+                mind to.
+            </p>
+            <p>
+                Your commitment to a healthier, stronger you is truly inspiring. Keep up the fantastic work, and
+                remember, the gym is your playground for growth and transformation.
+            </p>
+            <p>
+                Stay motivated, stay focused, and keep setting new goals. We're excited to see where your fitness
+                journey takes you next. The sky's the limit!
+            </p>
+            <p>
+                Ready for your next challenge? Explore our exciting new fitness plans and continue your incredible
+                journey towards a fitter, stronger, and healthier you.
+            </p>
+            <button (click)="removePlanFromUser()">
+                Discover Your Next Adventure
+                <img src="assets/icons/arrow-right.svg" alt="Arrow right icon">
+            </button>
+        </div>
+
+
+    </div>
+</section>

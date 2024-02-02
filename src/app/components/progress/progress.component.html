@@ -1,0 +1,143 @@
+<section class="sm-container" *ngIf="!loading && profileCreated">
+    <div class="progressData-container" *ngIf="data?.length > 0; else noProgress">
+        <div *ngFor="let exercise of data">
+            <app-fade-in-animation>
+                <div class="exercise-item">
+                    <h3>{{ exercise.exerciseType.name }}</h3>
+                    <form [formGroup]="editForm">
+                        <span *ngIf="exercise.sets || editProgressItem === exercise.id && exercise.sets > 0">
+                            Sets: <input maxlength="3" [(ngModel)]="exercise.sets" [value]="exercise.sets"
+                                [placeholder]="exercise.sets" formControlName="sets" />
+                        </span>
+                        <span *ngIf="exercise.reps || editProgressItem === exercise.id && exercise.reps > 0">
+                            Reps: <input [(ngModel)]="exercise.reps" [value]="exercise.reps"
+                                [placeholder]="exercise.reps" formControlName="reps" />
+                        </span>
+                        <span *ngIf="exercise.weight || editProgressItem === exercise.id && exercise.weight > 0">
+                            Weight: <input [(ngModel)]="exercise.weight" [value]="exercise.weight"
+                                [placeholder]="exercise.weight" formControlName="weight" />
+                        </span>
+                        <span *ngIf="exercise.distance || editProgressItem === exercise.id && exercise.distance > 0">
+                            Distance: <input [(ngModel)]="exercise.distance" [value]="exercise.distance"
+                                [placeholder]="exercise.distance" formControlName="distance" />
+                        </span>
+                        <span *ngIf="exercise.time || editProgressItem === exercise.id && exercise.time > 0">
+                            Time: <input [(ngModel)]="exercise.time" [value]="exercise.time"
+                                [placeholder]="exercise.time" formControlName="time" />
+                        </span>
+                    </form>
+
+                    <button *ngIf="editProgressItem === exercise.id" class="fade-button"
+                        (click)="deleteProgress(exercise.id)">
+                        <img src="assets/icons/delete.svg" alt="Delete icon">
+                    </button>
+
+                    <button *ngIf="editProgressItem !== exercise.id; else showDoneEditing" class="fade-button edit"
+                        (click)="editProgress(exercise.id)">
+                        <img src="assets/settings.svg" alt="Edit icon">
+                    </button>
+
+                    <ng-template #showDoneEditing>
+                        <button class="fade-button edit active" (click)="submitEditedForm(exercise.id)">
+                            <img src="assets/icons/done.svg" alt="Edit icon">
+                        </button>
+                    </ng-template>
+                </div>
+
+
+            </app-fade-in-animation>
+        </div>
+
+        <button *ngIf="!showSubscriptionButton" class="newProgressButton" (click)="activateNewProgressForm()">
+            <img src="assets/icons/add.svg" alt="Add Icon">
+        </button>
+
+        <a *ngIf="showSubscriptionButton" class="newProgressButton" routerLink="/checkout">
+            Subscribe now <img src="assets/icons/arrow-right.svg" alt="Arrow right">
+        </a>
+    </div>
+
+    <ng-template #noProgress>
+        <div class="setup-progress-container">
+            <p>Start tracking your progress now, add exercises and see how you progress! ✍️</p>
+            <button (click)="activateNewProgressForm()">
+                Add Progress
+            </button>
+        </div>
+    </ng-template>
+
+    <div class="activatedForm" *ngIf="activatedForm && profileCreated">
+        <div class="activatedForm-inner">
+            <button class="close-form" (click)="deActivateNewProgressForm()"><img src="assets/icons/close.svg"
+                    alt="Close icon"></button>
+            <h3>New Progress</h3>
+
+            <form [formGroup]="form" (submit)="addProgress()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Search Exercise</mat-label>
+                    <mat-select formControlName="exerciseType">
+                        <mat-option>
+                            <ngx-mat-select-search noEntriesFoundLabel="No exercise found" placeholderLabel="Search..."
+                                [formControl]="exercisesGroupsFilterCtrl"></ngx-mat-select-search>
+                        </mat-option>
+                        <ng-container *ngFor="let category of categories">
+                            <ng-container *ngIf="getFilteredExercises(category) | async as exercises">
+                                <ng-container *ngIf="exercises.length > 0">
+                                    <mat-optgroup [label]="category">
+                                        <mat-option *ngFor="let exercise of exercises" [value]="exercise.name">
+                                            {{ exercise.name }}
+                                        </mat-option>
+                                    </mat-optgroup>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <ng-container *ngIf="(selectedCategory | async) !== 'Cardio'">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sets</mat-label>
+                        <input type="number" autoComplete matInput formControlName="sets">
+                        <mat-icon matSuffix>amount</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Reps</mat-label>
+                        <input type="number" autoComplete matInput formControlName="reps">
+                        <mat-icon matSuffix>amount</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Weight</mat-label>
+                        <input type="number" autoComplete matInput formControlName="weight">
+                        <mat-icon matSuffix>weight</mat-icon>
+                    </mat-form-field>
+                </ng-container>
+
+
+                <ng-container *ngIf="(selectedCategory | async) === 'Cardio'">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Distance</mat-label>
+                        <input type="number" autoComplete matInput formControlName="distance">
+                        <mat-icon matSuffix>distance</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Time</mat-label>
+                        <input type="number" autoComplete matInput formControlName="time">
+                        <mat-icon matSuffix>time</mat-icon>
+                    </mat-form-field>
+                </ng-container>
+
+
+                <button type="submit"> <img src="assets/icons/arrow-right.svg" alt="Add Icon"></button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<section class="sm-container" *ngIf="!loading && !profileCreated">
+    <p>No profile is created, you need to create one first! 🏋️ <br><br><a routerLink="/profile">Create
+            profile</a></p>
+</section>

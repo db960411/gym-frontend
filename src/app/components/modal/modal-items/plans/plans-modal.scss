@@ -1,0 +1,45 @@
+@import '../../../../../styles/colors';
+
+:host {
+    position: absolute;
+}
+
+.modal_background {
+    width: 100%;
+    /* Take up the entire viewport width */
+    height: 100%;
+    /* Take up the entire viewport height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $primary-background;
+    /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    /* A higher z-index to ensure it's above other elements */
+
+    .modal_container {
+        background-image: $primary-bg-image;
+        padding: 20px;
+        /* Add padding as needed */
+        box-sizing: border-box;
+        text-align: center;
+        margin: 0 30px;
+
+        .text {
+            text-align: center;
+        }
+
+        button {
+            margin-top: 30px;
+            color: $primary-white;
+
+        }
+    }
+}
+
+.mat-mdc-form-field {
+    text-transform: capitalize;
+}

@@ -1,0 +1,16 @@
+:host {
+    display: inline-block;
+}
+
+.fadeIn-animation {
+    width: 100%;
+    opacity: 0;
+
+
+    &.animated {
+        transition: 800ms;
+        opacity: 1;
+        display: inline-block;
+        width: 100%;
+    }
+}

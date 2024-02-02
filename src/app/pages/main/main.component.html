@@ -1,0 +1,167 @@
+<main class="start_container">
+
+    <div class="md-container">
+        <div class="inner">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <div class="pill-container">NEW VERSION OF YOU. BETTER&nbsp;EXPERIENCE.</div>
+                    <h1 class="heading">Gym planet<br /> makes you <app-fade-in-animation>
+                            <div class="gradient-fill">2x faster</div>
+                        </app-fade-in-animation>
+                    </h1>
+                    <p class="text">Completely rewritten from scratch, the new version provides a truly magical
+                        experience.
+                        Measuring
+                        things has never been faster or more enjoyable!</p>
+
+                    <app-fade-in-animation>
+                        <a routerLink="/plans" style="margin-right: 20px;">
+                            Check out our workout&nbsp;programs&nbsp;<img src="/assets/icons/arrow-right.svg"
+                                alt="icon arrow-right" />
+                        </a>
+                    </app-fade-in-animation>
+                </div>
+
+                <app-slide-in-animation>
+                    <a class="btn-transparent" routerLink="/analytics">
+                        <div class="progress-container">
+                            <div class="progress-items-container">
+                                <p>Week 4</p>
+                                <div class="progress bar"></div>
+                            </div>
+                            <div class="progress-items-container">
+                                <p>Week 3</p>
+                                <div class="progress bar yellow"></div>
+                            </div>
+                            <div class="progress-items-container">
+                                <p>Week 2</p>
+                                <div class="progress bar orange"></div>
+                            </div>
+                            <div class="progress-items-container">
+                                <p>Week 1</p>
+                                <div class="progress bar gray"></div>
+                            </div>
+
+                            <div class="line"></div>
+
+                            <p class="progress-title">Track your progress</p>
+                        </div>
+                    </a>
+
+                </app-slide-in-animation>
+            </div>
+
+
+        </div>
+    </div>
+
+    <section class="social-information-container">
+        <div class="md-container">
+            <div class="heading-container">
+                <app-fade-in-animation>
+
+                    <h2 class="heading">
+                        Gym planet. In every way.
+                    </h2>
+
+
+                </app-fade-in-animation>
+            </div>
+
+            <p class="text">
+                Gym planet connects you with your workout buddies, <span class="text-orange">free of charge.</span>
+            </p>
+
+            <div class="presentation-section">
+                <div class="presentation-container">
+                    <div>
+                        <p class="sub-heading">Measure results</p>
+                        <p class="text">With a <a routerLink="/profile"><b class="text-orange">profile</b></a> you can
+                            measure
+                            your workouts
+                            and level up</p>
+                        <p class="highlight"><img class="icon" src="/assets/icons/person.svg" alt="">Alone.</p>
+                        <p class=" highlight"><img class="icon" src="/assets/icons/friends.svg" alt="">With friends.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="presentation-container">
+                    <app-scale-animation>
+                        <div class="program-card">
+                            <div class="header"></div>
+                            <div class="body">
+                                <div class="programs-img">
+                                    <img src="/assets/icons/programs.svg" alt="programs icon" />
+                                </div>
+                                <p>We offer various programs for whatever challenge you want.</p>
+                            </div>
+
+                            <div class="footer">
+                                <a routerLink="/plans" class="color-btn">
+                                    JOIN
+                                </a>
+                            </div>
+                        </div>
+                    </app-scale-animation>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <section class="md-container">
+        <div class="inner">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <div class="pill-container">STAY AHEAD</div>
+                    <h2 class="heading">Gym planet is under constant upgrades, to catch the latest read our
+                        <app-fade-in-animation>
+                            <div class="gradient-fill">latest articles</div>
+                        </app-fade-in-animation>
+                    </h2>
+                    <p class="text">Completely rewritten from scratch, the new version provides a truly magical
+                        experience.
+                        Measuring
+                        things has never been faster or more enjoyable!</p>
+
+                    <app-fade-in-animation>
+                        <button routerLink="/blog" *ngIf="!subcribedToNewsLetter" type="submit" class="color-btn">
+                            See all articles
+                        </button>
+                    </app-fade-in-animation>
+                </div>
+                <app-news-sidebar></app-news-sidebar>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="news-letter-container">
+            <h2 class="sub-heading">
+                Be the first to know
+            </h2>
+            <p class="text">
+                We'll inform you about new workout plans and news, but no spam, we promise.
+            </p>
+
+            <form [formGroup]="formData" (ngSubmit)="signUpToNewsLetter()">
+                <div class="btn-container">
+                    <mat-form-field appearance="outline">
+                        <input id="email" formControlName="email" matInput placeholder="Your e-mail">
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+
+                    <button *ngIf="!subcribedToNewsLetter" type="submit" class="color-btn">
+                        Subscribe
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+
+
+</main>

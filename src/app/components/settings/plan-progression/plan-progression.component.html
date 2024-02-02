@@ -1,0 +1,20 @@
+<div class="sh-form_container" *ngIf="data?.day">
+    <h2>Current Plan</h2>
+
+    <div class="settings_flex" *ngIf="data?.plan as data">
+        <div class="items">
+            <h3>
+                {{data.name}}
+            </h3>
+            <p>
+                required subscription: {{data.subscription_type}}
+            </p>
+        </div>
+
+        <div class="settings_edit_icon">
+            <button (click)="settingsService.openModal('planProgression')">
+                <img src="/assets/settings.svg" alt="edit_form_icon" />
+            </button>
+        </div>
+    </div>
+</div>

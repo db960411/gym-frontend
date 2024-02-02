@@ -1,0 +1,46 @@
+@import '../../../styles/colors';
+
+.plans-section {
+    padding: 30px;
+    background-color: $secondary-background;
+    min-height: 100vh;
+}
+
+.plans-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 100px 0;
+
+
+    .plan-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+
+
+        &:hover {
+            img {
+                transform: scale(1.03);
+                transition: 0.2s ease-in-out;
+            }
+        }
+
+        img {
+            margin-bottom: -14px;
+            transition: 0.2s ease-in-out;
+        }
+
+
+        .pill-container {
+            width: -webkit-fill-available;
+            max-width: fit-content;
+        }
+    }
+
+}

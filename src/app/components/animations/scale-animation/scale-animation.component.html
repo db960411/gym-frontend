@@ -1,0 +1,5 @@
+<div *ngIf="enter" ngxViewportObserver (ngxViewportObserverEvent)="onElementVisible($event)">
+    <div class="scale-content" [@scaleAnimation] class="scale-box">
+        <ng-content></ng-content>
+    </div>
+</div>

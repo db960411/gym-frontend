@@ -1,0 +1,16 @@
+<div class="sh-form_container" *ngIf="data?.language">
+
+    <h2>Display language</h2>
+
+    <div class="settings_flex">
+        <p>
+            {{data?.language}}
+        </p>
+
+        <div class="settings_edit_icon">
+            <button (click)="settingsService.openModal('language')">
+                <img src="/assets/settings.svg" alt="edit_form_icon" />
+            </button>
+        </div>
+    </div>
+</div>

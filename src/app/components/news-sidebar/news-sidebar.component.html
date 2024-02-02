@@ -1,0 +1,20 @@
+<app-fade-in-animation>
+    <ng-container class="pill-container" *ngIf="news$ | async as news">
+
+        <aside *ngIf="news.newsList.content.length > 0" class="news_container">
+            <ng-container *ngIf="loading$ | async;">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            </ng-container>
+
+            <div class="pill-container">BLOG AND ARTICLES</div>
+
+
+            <ng-container *ngIf="news.newsList.content.length > 0">
+                <app-slider [sliderContent]="news.newsList.content">
+                </app-slider>
+            </ng-container>
+
+        </aside>
+    </ng-container>
+
+</app-fade-in-animation>

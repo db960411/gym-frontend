@@ -1,0 +1,24 @@
+<div class="sh-form_container">
+    <h2>Change your language</h2>
+
+    <form [formGroup]="formData" (submit)="submitForm()">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select your language</mat-label>
+            <mat-select formControlName="selectedLanguage">
+                <mat-option *ngFor="let language of languages" [value]="language.value">
+                    {{language.viewValue}}
+                </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>language</mat-icon>
+        </mat-form-field>
+
+        <ng-container *ngIf="error">
+            <span>{{errorMessage}}</span>
+        </ng-container>
+        <div class="button-container">
+            <button type="submit" [class.deActivated]="deActivated">Continue</button>
+            <button (click)="closeModal()">Cancel</button>
+        </div>
+    </form>
+</div>

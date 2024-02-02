@@ -1,0 +1,84 @@
+<section class="sm-container">
+    <div class="notes-section">
+        <app-fade-in-animation>
+            <div style="padding-top: 50px;">
+                <div class="pill-container">
+                    Notes
+                </div>
+                <div *ngIf="notesLength <= 0">
+                    <p>Welcome to your personal notes section. This is the place where you can jot down your thoughts,
+                        ideas, and reminders. Feel free to organize your thoughts and keep track of your important
+                        information.</p>
+                    <p>Start by adding a new note or review your existing notes. Each note represents a valuable piece
+                        of
+                        information that you can revisit anytime!</p>
+                    <p>Stay organized, stay productive, and let your creativity flow through your notes!</p>
+                </div>
+
+                <button class="note-btn" (click)="activateForm()" class="new-note-btn">Add a note <img
+                        src="assets/icons/plus.svg" alt=""></button>
+            </div>
+
+            <div class="notes-container">
+                <div *ngFor="let note of notesData" class="note-item">
+                    <h3>{{note?.title}}</h3>
+                    <span>{{note?.content}}</span>
+                    <span class="category">{{note?.category}}</span>
+                    <button class="btn-delete" (click)="deleteNote(note.id)">
+                        <img src="/assets/icons/delete.svg" alt=""></button>
+                </div>
+            </div>
+
+
+            <div class="paginator-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>Category</mat-label>
+                    <input type="text" autoComplete matInput [(ngModel)]="category"
+                        (ngModelChange)="onCategoryChange()">
+                    <mat-icon matSuffix>category</mat-icon>
+                </mat-form-field>
+
+                <mat-paginator [length]="notesLength" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50]"
+                    (page)="pageEvent($event)" (pageSizeChange)="pageSizeEvent($event)" aria-label="Select page">
+                </mat-paginator>
+
+            </div>
+
+        </app-fade-in-animation>
+    </div>
+</section>
+
+
+<section class="activatedForm" *ngIf="activatedForm">
+    <div class="activatedForm-inner">
+        <button class="close-form" (click)="deActivateNewProgressForm()"><img src="assets/icons/close.svg"
+                alt="Close icon"></button>
+        <h3>New Note</h3>
+
+        <form [formGroup]="form" (submit)="addNewNote()">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <input type="text" autoComplete matInput formControlName="category">
+                <mat-icon matSuffix>category</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" autoComplete matInput formControlName="title">
+                <mat-icon matSuffix>title</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Content</mat-label>
+                <input type="text" autoComplete matInput formControlName="content">
+                <mat-icon matSuffix>content</mat-icon>
+            </mat-form-field>
+
+
+
+            <button class="submit-btn" type="submit">Add</button>
+        </form>
+    </div>
+
+</section>

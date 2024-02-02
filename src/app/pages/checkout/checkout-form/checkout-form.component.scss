@@ -1,0 +1,49 @@
+@import '../../../../styles/colors';
+
+
+.checkout-form {
+    max-width: 500px;
+    width: 100%;
+
+    label {
+        font-style: italic;
+    }
+}
+
+.form-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#card-element {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 30px;
+    background-color: $primary-white;
+    margin-bottom: 30px;
+    margin-top: 5px;
+    color: $primary-midnight;
+}
+
+#card-errors {
+    color: #fa755a;
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.submit-button {
+    background-color: $primary-white;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}

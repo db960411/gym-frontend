@@ -1,0 +1,19 @@
+<!-- strength.component.html -->
+<div class="modal_background" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0">
+    <app-fade-in-animation>
+        <div class="modal_container" (click)="stopPropagation($event)" (keydown.enter)="stopPropagation($event)"
+            tabindex="0">
+            <h1>The lose weight program</h1>
+            <p>
+                is designed to help you build muscle, increase your physical power, and improve
+                your overall strength. Whether you're a beginner or an experienced lifter, our comprehensive strength
+                training program offers a variety of exercises and workouts tailored to your fitness level and goals.
+            </p>
+
+            <button (click)="assignPlanToUser(selectedPlan)" (keydown.enter)="assignPlanToUser(selectedPlan)">
+                Join plan <img src="/assets/icons/arrow-right.svg" alt="icon arrow right">
+            </button>
+
+        </div>
+    </app-fade-in-animation>
+</div>

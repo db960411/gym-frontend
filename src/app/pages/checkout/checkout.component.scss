@@ -1,0 +1,15 @@
+@import '../../../styles/colors';
+
+.checkout-container {
+    padding: 0 30px;
+
+    .checkout-item {
+        flex: 0.5;
+        padding: 0 30px;
+
+
+        a {
+            color: $primary-orange;
+        }
+    }
+}

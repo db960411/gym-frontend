@@ -1,0 +1,18 @@
+:host {
+    display: inline-block;
+}
+
+.scale-content {
+    display: inline-block;
+}
+
+.scale-box {
+
+    transform: scale(0);
+    transition: transform 700ms ease-in-out;
+
+    &.animated {
+        transform: scale(1);
+    }
+
+}

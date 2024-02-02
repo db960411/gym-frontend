@@ -1,0 +1,111 @@
+<header>
+    <div class="inner md-container">
+        <!-- <div class="brand_logo">
+            <img src="" alt="header_logo" />
+        </div> -->
+
+        <button (click)="toggleMobileMenu()"
+            [ngClass]="{ hamburger: !hamburgerActive , 'hamburger-active': hamburgerActive}">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+
+        <nav>
+            <ul>
+                <li><a (click)="onNavClick()" routerLink="/" [routerLinkActiveOptions]="{exact: true}"
+                        routerLinkActive="active">Home</a>
+                </li>
+                <li><a (click)="onNavClick()" routerLink="/about" routerLinkActive="active">About</a></li>
+                <li><a (click)="onNavClick()" routerLink="/blog" routerLinkActive="active">Blog</a></li>
+                <li><a (click)="onNavClick()" routerLink="/profile" routerLinkActive="active">Profile</a></li>
+                <li><a (click)="onNavClick()" routerLink="/plans" routerLinkActive="active">Plans</a></li>
+                <li><a (click)="onNavClick()" routerLink="/social" routerLinkActive="active">Social</a></li>
+
+            </ul>
+        </nav>
+
+        <div class="notifications-container" (click)="toggleNotifications()" tabindex="0"
+            (keydown.enter)="toggleNotifications();">
+            <div class="notifications-icon-container">
+                <img src="assets/icons/notifications.svg" alt="notifications" />
+                <app-fade-in-animation>
+                    <span *ngIf="notificationsCount > 0">{{notificationsCount}}</span>
+                </app-fade-in-animation>
+            </div>
+
+            <div class="notifications-dropdown-container" *ngIf="notificationsActive" aria-labelledby="Text"
+                tabindex="0" (click)="closeNotifications();" (keydown.enter)="closeNotifications();">
+
+                <div class="header_dropdown" [ngClass]="{ active: notificationsActive }">
+                    <div class="header_container">Notifications <a (click)="closeNotifications()" tabindex="0"
+                            (keydown.enter)="closeNotifications();" routerLink="/settings"><img class="settings-icon"
+                                src="assets/settings.svg" alt="edit icon" /></a>
+                    </div>
+
+                    <div *ngIf="!notificationsCount">
+                        <p style="font-size: 11px; padding: 8px;">No notifications so far...</p>
+                    </div>
+
+                    <div class="inner_dropdown" *ngFor="let notification of notificationItems">
+                        <div class="notification-container">
+                            <div class="profile-icon">
+                                <img *ngIf="!!notification.friendImageUrl; else noFriendImage"
+                                    src="{{notification.friendImageUrl}}" alt="friend's image" />
+                                <ng-template #noFriendImage>
+                                    <div class="rounded_profile_letter">
+                                        {{ notification.friendDisplayName ? (notification.friendDisplayName | slice:0:1)
+                                        :
+                                        (notification.friendEmail | slice: 0:1) }}
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                            <span>{{notification?.friendDisplayName | titlecase}}</span>
+
+                            <a style="font-size: 10px; font-weight: 400;" tabindex=" 0" routerLink="/social"
+                                routerLinkActive="active" class="btn-transparent">{{notification?.title}}</a>
+
+                            <div *ngIf="!notification.seen" class="activeNotification"></div>
+
+                            <span class="createdAt">{{notification.createdAt | date: 'short'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div aria-labelledby="Text" class="profile_container" tabindex="0" (click)="toggleDropdown();"
+            (keydown.enter)="toggleDropdown();">
+            <ng-container *ngIf="(profileContainerActive$ | async)">
+                <ng-container *ngIf="userInfo$ | async as user">
+                    <div class="rounded_profile_letter" tabindex="0" (keydown.enter)="toggleDropdown();">
+                        {{ user.displayName ? (user.displayName | slice:0:1) : (user.email | slice: 0:1) }}
+                    </div>
+                    <span>{{ user.displayName }}</span>
+
+                    <div class="header_dropdown" [ngClass]="{ active: dropdownActive }">
+                        <app-fade-in-animation>
+                            <div class="inner_dropdown">
+
+                                <a tabindex="0" routerLink="/checkout" [routerLinkActiveOptions]="{exact: true}"
+                                    routerLinkActive="active" class="btn-transparent">Subscription</a>
+                                <a tabindex="0" routerLink="/notes" routerLinkActive="active"
+                                    class="btn-transparent">My&nbsp;Notes</a>
+                                <a tabindex="0" routerLink="/settings" routerLinkActive="active"
+                                    class="btn-transparent">Settings</a>
+
+                                <hr style="width: 100%;" />
+
+                                <button tabindex="0" class="btn-transparent" (click)="logoutUser()">Logout</button>
+                            </div>
+                        </app-fade-in-animation>
+                    </div>
+
+                </ng-container>
+            </ng-container>
+        </div>
+
+    </div>
+</header>

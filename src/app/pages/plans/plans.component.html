@@ -1,0 +1,40 @@
+<section class="plans-section">
+    <div class="md-container p-v-50 p-h-30">
+
+        <ng-container *ngIf="loading">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </ng-container>
+
+        <div *ngIf="!loading">
+            <h1>Plans</h1>
+
+            <div class="plans-container">
+                <div (click)="!error && openModal()" tabindex="0" (keydown.enter)="openModal()"
+                    *ngFor="let plan of plans; let i = index" class="plan-container" (click)="selectedPlan=plan.route"
+                    tabindex="0" (keydown.enter)="selectedPlan=plan.route">
+                    <app-fade-in-animation>
+                        <img [src]="plan.imageSrc" alt="beach body icon" />
+                    </app-fade-in-animation>
+                    <app-scale-animation>
+                        <div class="pill-container">
+                            <span>{{ plan.label }}</span>
+                        </div>
+                    </app-scale-animation>
+                </div>
+
+                <ng-container style="position: absolute;" *ngIf="isModalActive" [ngSwitch]="selectedPlan">
+                    <app-strength-modal *ngSwitchCase="'strength'" [selectedPlan]="selectedPlan"
+                        (assignPlan)="assignPlanToUser(selectedPlan)">
+                    </app-strength-modal>
+                    <app-mix-modal *ngSwitchCase="'mix'" [selectedPlan]="selectedPlan"
+                        (assignPlan)="assignPlanToUser(selectedPlan)">
+                    </app-mix-modal>
+                    <app-lose-weight-modal *ngSwitchCase="'lose-weight'" [selectedPlan]="selectedPlan"
+                        (assignPlan)="assignPlanToUser(selectedPlan)">
+                    </app-lose-weight-modal>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+</section>

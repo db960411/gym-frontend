@@ -1,0 +1,20 @@
+<div class="sh-form_container">
+    <h2>Cancel plan</h2>
+    <span class="error">Cancelling your plan is irreversible decision!</span>
+
+    <form class="planProgressForm" [formGroup]="planProgressionForm" (submit)="submitForm()">
+        <mat-checkbox formControlName="cancelPlan">
+            <span style="color: #fff;">Cancel plan</span>
+        </mat-checkbox>
+
+        <ng-container *ngIf="error">
+            <span>{{errorMessage}}</span>
+        </ng-container>
+
+        <div class="button-container">
+            <button type="submit" [class.deActivated]="deActivated">Submit <img src="/assets/icons/arrow-right.svg"
+                    alt="icon arrow right" /></button>
+            <button (click)="closeModal()">Cancel</button>
+        </div>
+    </form>
+</div>

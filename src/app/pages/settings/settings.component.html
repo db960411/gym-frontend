@@ -1,0 +1,45 @@
+<section class="settings-container">
+  <div class="sm-container">
+
+    <div *ngIf="loading$ | async">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+    <div class="settings-inner">
+      <ng-container *ngIf="data$ | async">
+        <settings-account [data]="data$ | async" [ngClass]="'settings_card'"></settings-account>
+        <app-settings-subscription *ngIf="data$ | async" [data]="data$ | async"
+          [ngClass]="'settings_card'"></app-settings-subscription>
+        <settings-language *ngIf="(data$ | async).language" [data]="data$ | async"
+          [ngClass]="'settings_card'"></settings-language>
+        <app-settings-notifications [data]="(data$ | async).allowNotifications"
+          [ngClass]="'settings_card'"></app-settings-notifications>
+        <settings-communication [data]="(data$ | async).receiveEmails"
+          [ngClass]="'settings_card'"></settings-communication>
+        <app-settings-plan-progression *ngIf="(data$ | async)?.planProgressionDto"
+          [data]="(data$ | async)?.planProgressionDto" [ngClass]="'settings_card'"></app-settings-plan-progression>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
+
+
+<app-modal [isActive]="settingsService.modalState$ | async">
+  <ng-container *ngIf="(settingsService.currentSetting$ | async) === 'email'">
+    <app-email></app-email>
+  </ng-container>
+
+  <ng-container *ngIf="(settingsService.currentSetting$ | async) === 'password'">
+    <app-password></app-password>
+  </ng-container>
+
+  <ng-container *ngIf="(settingsService.currentSetting$ | async) === 'planProgression'">
+    <app-plan-progression></app-plan-progression>
+  </ng-container>
+
+  <ng-container *ngIf="(settingsService.currentSetting$ | async) === 'language'">
+    <app-language></app-language>
+  </ng-container>
+
+</app-modal>

@@ -1,0 +1,207 @@
+@import "../../../styles/colors";
+
+.setup-progress-container {
+    padding: 50px 30px;
+    max-width: 400px;
+}
+
+.progressData-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 150px;
+    position: relative;
+    gap: 20px;
+}
+
+.exercise-item {
+    position: relative;
+    background: #181818;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    min-height: 200px;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: left;
+    box-shadow: 0 4px 6px $primary-orange, 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: #282828;
+    }
+
+    h3,
+    span {
+        max-width: max-content;
+        margin-top: 0;
+        text-transform: capitalize;
+        text-align: center;
+    }
+
+    h3 {
+        margin-bottom: 3px;
+    }
+
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        input {
+            max-width: 26px;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            margin: 0;
+            border: none;
+            min-height: unset;
+            border-radius: 0;
+            padding: 0;
+            color: $primary-light;
+
+            &::placeholder {
+                color: $primary-light;
+            }
+        }
+    }
+
+    h3 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+}
+
+.newProgressButton {
+    padding: 0;
+    margin: 0;
+    max-width: fit-content;
+    border-bottom: none;
+    position: absolute;
+    bottom: 20px;
+    margin-bottom: 30px;
+
+
+    img {
+        width: 40px;
+        height: 40px;
+    }
+
+    &:hover {
+        border-bottom: none;
+    }
+}
+
+.activatedForm {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: $primary-background;
+    z-index: 2;
+
+
+    .activatedForm-inner {
+        background-color: $primary-black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 330px;
+        overflow-y: auto;
+        padding: 20px 60px;
+        flex-direction: column;
+        margin: 30px;
+        border-radius: 20px;
+        border: 1px solid $primary-border;
+        position: relative;
+
+        img {
+            width: 60px;
+            height: 60px;
+        }
+
+        form {
+            padding: 0;
+        }
+
+        h2 {
+            margin: 30px 0;
+        }
+
+        button {
+            margin-top: 30px;
+            font-size: 18px;
+            max-width: fit-content;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            min-width: 400px;
+        }
+
+        @media (max-width: 767px) {
+            min-width: 320px;
+            padding: 30px;
+        }
+
+    }
+
+    .close-form {
+        color: $primary-light;
+        margin-top: 30px;
+        margin: 0 !important;
+        align-self: flex-start;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+
+.fade-button {
+    opacity: 0;
+    position: absolute;
+    top: 0%;
+    left: 10%;
+    transform: translate(-50%);
+    transition: opacity 0.3s ease-in-out;
+    border-bottom: none;
+    max-width: 50px;
+
+
+    &:hover {
+        border-bottom: none;
+    }
+
+    &.edit {
+        bottom: 0;
+        top: 80%;
+        left: 50%;
+
+
+        &.active {
+            bottom: -5%;
+        }
+    }
+}
+
+.exercise-item:hover .fade-button {
+    opacity: 1;
+}

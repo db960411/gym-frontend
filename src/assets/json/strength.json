@@ -1,0 +1,83 @@
+[
+  {
+    "day": 1,
+    "exercises": [
+      {
+        "name": "Squats",
+        "sets": 3,
+        "reps": 8,
+        "rest": "2 minutes",
+        "description": "Barbell squats for lower body strength."
+      },
+      {
+        "name": "Bench Press",
+        "sets": 3,
+        "reps": 8,
+        "rest": "2 minutes",
+        "description": "Bench press for chest and triceps."
+      },
+      {
+        "name": "Deadlift",
+        "sets": 3,
+        "reps": 6,
+        "rest": "2 minutes",
+        "description": "Deadlift for overall strength and lower back."
+      },
+      {
+        "name": "Pull-Ups",
+        "sets": 3,
+        "reps": 10,
+        "rest": "1.5 minutes",
+        "description": "Pull-ups for upper back and biceps."
+      },
+      {
+        "name": "Plank",
+        "sets": 3,
+        "duration": "30 seconds",
+        "rest": "1 minute",
+        "description": "Core-strengthening exercise."
+      }
+    ]
+},
+{
+  "day": 2,
+  "exercises": [
+    {
+      "name": "Test",
+      "sets": 3,
+      "reps": 8,
+      "rest": "2 minutes",
+      "description": "Barbell squats for lower body strength."
+    },
+    {
+      "name": "Test2",
+      "sets": 3,
+      "reps": 8,
+      "rest": "2 minutes",
+      "description": "Bench press for chest and triceps."
+    },
+    {
+      "name": "Test3",
+      "sets": 3,
+      "reps": 6,
+      "rest": "2 minutes",
+      "description": "Deadlift for overall strength and lower back."
+    },
+    {
+      "name": "Pull-Ups",
+      "sets": 3,
+      "reps": 10,
+      "rest": "1.5 minutes",
+      "description": "Pull-ups for upper back and biceps."
+    },
+    {
+      "name": "Plank",
+      "sets": 3,
+      "duration": "30 seconds",
+      "rest": "1 minute",
+      "description": "Core-strengthening exercise."
+    }
+  ]
+}
+
+]

@@ -1,0 +1,192 @@
+@import "../../../../../styles/colors";
+
+
+.plan-section-container {
+    margin: 0 30px;
+    padding-bottom: 50px;
+}
+
+.plan-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .new-note-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+
+        .note_text {
+            display: flex;
+            align-items: center;
+
+            img {
+                margin-left: 10px;
+            }
+        }
+
+        button {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .note-form-container {
+
+        .notes-container {
+            border-bottom: 1px solid #cccccc28;
+            padding-bottom: 30px;
+        }
+
+        form {
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        button {
+            margin-top: 0;
+        }
+    }
+
+    .exercise-data-container {
+        flex: 0.7;
+    }
+
+    .notes-data-container {
+
+        .notes-item {
+            border: 1px solid #cccccc57;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+
+            p {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.progress-section {
+
+    .progress-text {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        h3 {
+            width: fit-content;
+        }
+    }
+
+    .progress-container {
+        padding-top: 50px;
+        display: flex;
+        flex-direction: column;
+        max-height: 600px;
+        overflow-y: scroll;
+    }
+
+    button {
+        margin: 0;
+        padding: 0;
+    }
+
+    .progressData-container {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+    }
+}
+
+.exercises-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+
+    h3 {
+        margin-bottom: 0;
+    }
+
+    span,
+    p {
+        color: $primary-orange;
+    }
+
+    .finishedExercise {
+
+        h3,
+        span,
+        button,
+        p {
+            color: lightgray !important;
+
+        }
+    }
+
+    span {
+        margin-left: 8px;
+    }
+
+}
+
+.changeColor {
+    fill: black;
+    /* Replace 'your-color-here' with the desired color value */
+}
+
+button {
+    margin-top: 30px;
+}
+
+.toggleDescription,
+.toggleDoneExercise {
+    padding: 0;
+    margin: 0;
+    border: none;
+    margin-left: 5px;
+
+
+
+    &:hover {
+        border: none !important;
+        padding: 0;
+    }
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 0.3;
+}
+
+@media (max-width: 768px) {
+
+    .plan-container {
+        flex-direction: column;
+    }
+
+    .exercise-data-container {
+        flex: 1;
+    }
+
+    .sidebar-container {
+        padding-top: 50px;
+        flex: 0.5;
+    }
+
+    .exercises-container {
+        grid-template-columns: repeat(1, 1fr);
+
+        div {
+            min-width: 250px;
+            border: 1px solid #cccccc3d;
+            border-radius: 18px;
+            padding: 10px 30px;
+            margin: 10px 0;
+        }
+    }
+
+}

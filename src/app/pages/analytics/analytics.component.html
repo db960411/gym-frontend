@@ -1,0 +1,41 @@
+<section class="md-container">
+    <h1>Analytics</h1>
+
+    <div *ngFor="let data of analyticsData[0]">
+        <h3 *ngIf="data.initialUserWeight > 0">Intitial user weight {{ data.initialUserWeight}}kg</h3>
+        <h3 *ngIf="data.currentUserWeight > 0">Current user weight {{ data.currentUserWeight}}kg</h3>
+        <h3 *ngIf="data.userWeightPercentageIncrease > 0">% since start {{data.userWeightPercentageIncrease}}
+        </h3>
+    </div>
+
+    <ng-container *ngFor="let data of analyticsData">
+        <div class="analyticsData-container">
+            <p>{{data?.exerciseType}}</p>
+            <p *ngIf="data.createdAt > 0">{{data?.createdAt}}</p>
+
+            <p *ngIf="data.initialProgressReps > 0">Initial reps {{data?.initialProgressReps}}</p>
+            <p *ngIf="data.currentProgressReps > 0">Current reps {{data?.currentProgressReps}}</p>
+            <p *ngIf="data.userProgressRepsPercentageIncrease > 0">Progress reps % percentage
+                {{data?.userProgressRepsPercentageIncrease}}</p>
+
+            <p *ngIf="data.initialProgressSets > 0">Initial sets {{data?.initialProgressSets}}</p>
+            <p *ngIf="data.currentProgressSets > 0">Current sets {{data?.currentProgressSets}}</p>
+            <p *ngIf="data.userProgressSetsPercentageIncrease > 0">Progress sets % increase
+                {{data?.userProgressSetsPercentageIncrease}}</p>
+
+            <p *ngIf="data.initialProgressWeight > 0">Initial weight {{data?.initialProgressWeight}}</p>
+            <p *ngIf="data.currentProgressWeight > 0">Current weight {{data?.currentProgressWeight}}</p>
+            <p *ngIf="data.userProgressWeightPercentageIncrease > 0">Progress weight % increase
+                {{data?.userProgressWeightPercentageIncrease}}</p>
+        </div>
+    </ng-container>
+
+
+
+    <div *ngIf="noAnalyticsFound">
+        <p>
+            No analytics available. Please create a <a style="font-size: inherit;" routerLink="/profile">Profile</a>
+            first.
+        </p>
+    </div>
+</section>

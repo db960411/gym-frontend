@@ -1,0 +1,7 @@
+.analyticsData-container {
+    border-bottom: 1px solid #ccc;
+
+    &:nth-last-of-type() {
+        border-bottom: none;
+    }
+}

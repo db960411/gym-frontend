@@ -1,0 +1,25 @@
+#toast-container {
+
+    .toast-top-right {
+        background-color: orange;
+        position: fixed;
+        top: 5px;
+        right: 5px;
+    }
+}
+
+.slide-in {
+    animation: slideIn 1s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

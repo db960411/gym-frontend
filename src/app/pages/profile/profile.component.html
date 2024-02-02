@@ -1,0 +1,199 @@
+<section class="profile_section ">
+    <div class="md-container">
+        <ng-container *ngIf="loading$ | async">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner><span></span>
+        </ng-container>
+
+        <ng-container *ngIf="createProfileError$ | async">
+            <p>{{ createProfileErrorMessage }}</p>
+        </ng-container>
+
+        <ng-container *ngIf="(profileCreated$ | async) === false && !activeModal && (loading$ | async) === false">
+            <div class="welcome-new-profile">
+                <h1>Welcome {{ userDisplayName }} 💪</h1>
+                <div class="text_container">
+
+                    <h2>Thank you for joining our community! We're excited to have you on board.</h2>
+
+                    <p>Creating your profile will allow you to personalize your experience and unlock a world of
+                        possibilities.
+                        Let's get started!</p>
+
+                    <p>By setting up your profile, you can:</p>
+
+                    <ul>
+                        <li>Connect with like-minded individuals who share your interests and&nbsp;passions.</li>
+                        <li>Discover tailored content, recommendations, and resources based on your&nbsp;preferences.
+                        </li>
+                        <li>Engage in meaningful discussions and exchange knowledge with experts in various&nbsp;fields.
+                        </li>
+                        <li>Showcase your own expertise, skills, and accomplishments to inspire&nbsp;others.</li>
+                        <li>Stay updated with the latest news, events, and opportunities relevant to
+                            your&nbsp;interests.
+                        </li>
+                    </ul>
+
+                    <app-fade-in-animation>
+                        <button (click)="onProfileSetup()" style="margin-top: 20px;">
+                            Setup Profile <img src="/assets/icons/arrow-right.svg" alt="icon arrow-right" />
+                        </button>
+                    </app-fade-in-animation>
+
+                </div>
+            </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="(profileCreated$ | async) && !activeModal && (loading$ | async) === false">
+            <div class="sm-container" *ngIf="profileData$ | async as data">
+                <div class="profile-container">
+                    <div class="profile-user-container">
+                        <div class="image-container" (click)="openProfileImageForm()" (keyup)="openProfileImageForm()"
+                            tabindex="0">
+                            <ng-container *ngIf="userInformation?.profileImageUrl">
+                                <img src="{{userInformation?.profileImageUrl}}" alt="prof pic">
+                            </ng-container>
+                            <ng-container *ngIf="!userInformation?.profileImageUrl">
+                                <div class="rounded_profile_letter" tabindex="0">
+                                    {{ (data?.displayName | slice:0:1) || (userInformation.userInfo.email |
+                                    slice:0:1) }}
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="header-container">
+                            <div class="header-item">
+                                <h3>{{ data?.displayName }}</h3>
+                            </div>
+                            <div class="header-item">
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="toggleOpenProfileImageForm">
+                            <div class="profileImageForm-container">
+                                <button><img src="assets/icons/close.svg" alt="Close icon"
+                                        (click)="openProfileImageForm()" (keyup)="openProfileImageForm()"
+                                        tabindex="0"></button>
+                                <div class="profileImageForm-inner">
+                                    <form [formGroup]="profileImageForm" (ngSubmit)="onSubmitImageForm()">
+                                        <span>Update profile picture with a valid url</span>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>New image url</mat-label>
+                                            <input matInput placeholder="Image url" formControlName="profileImageUrl">
+                                            <mat-icon matSuffix>icon</mat-icon>
+                                        </mat-form-field>
+                                        <div
+                                            *ngIf="profileImageForm.controls['profileImageUrl'].invalid && (profileImageForm.controls['profileImageUrl'].dirty || profileImageForm.controls['profileImageUrl'].touched)">
+                                            <div
+                                                *ngIf="profileImageForm.controls['profileImageUrl'].errors?.['required']">
+                                                <span>Image URL is required.</span>
+                                            </div>
+                                            <div
+                                                *ngIf="profileImageForm.controls['profileImageUrl'].errors?.['invalidUrl']">
+                                                <span>Invalid Image URL. Please provide a valid image URL.</span>
+                                            </div>
+                                        </div>
+                                        <button type="submit" [disabled]="!profileImageForm.valid"><img
+                                                src="assets/icons/arrow-right.svg" alt="arrow-right"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <app-fade-in-animation>
+                        <div class="general-info">
+                            <div class="info-item"><img src="assets/icons/height.svg" alt="height icon">
+                                {{ data?.height }}</div>
+                            <div class="info-item"><img src="assets/icons/weight.svg" alt="weight icon">{{ data?.weight
+                                }}
+                            </div>
+                            <div class="info-item"><img src="assets/icons/nationality.svg" alt="nationality icon"> {{
+                                data?.nationality }}
+                            </div>
+                            <div class="info-item"><img src="assets/icons/language.svg" alt="language icon"> {{
+                                data?.language.toLowerCase()}}</div>
+                            <div class="info-item"><img src="assets/icons/gender.svg" alt="gender icon">{{ data?.gender
+                                }}
+                            </div>
+                            <div class="info-item"><img src="assets/icons/age.svg" alt="age icon">{{
+                                calculateAge(data?.dateOfBirth) }}</div>
+
+                            <div class="user_level-container">
+                                <div class="user_level" [ngStyle]="{
+                            'background-color': getColorBasedOnLevel(userInformation?.level)
+                          }">
+                                    <span>{{userInformation?.level}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </app-fade-in-animation>
+                </div>
+
+                <app-progress></app-progress>
+            </div>
+
+        </ng-container>
+
+
+        <ng-container *ngIf="submitted && (loading$ | async) === false">
+            <div class="profile-submitted-container">
+                <div>
+                    <h2>Welcome to Your Fitness Journey! 🌟</h2>
+                    <p>Congratulations on creating your profile! You've taken the first step towards a healthier and
+                        happier
+                        you.
+                        🏋️‍♀️🏃‍♂️</p>
+                    <p>Now, it's time to supercharge your fitness journey:</p>
+                    <ul>
+                        <li>Connect with Friends: Add friends and stay motivated together. 🤝</li>
+                        <li>Choose Your Path: Explore personalized fitness <a routerLink="/plans">plans</a> tailored
+                            just
+                            for
+                            you. 📅</li>
+                        <li>Adjust Your Settings: Fine-tune your training preferences to make the most of your workouts.
+                            ⚙️
+                        </li>
+                    </ul>
+                    <p>Ready to get started? Let's crush your fitness goals together!</p>
+                    <button (click)="toggleSubmitted()">See profile</button>
+                </div>
+
+                <ng-container *ngIf="!!fitnessGoals" [ngSwitch]="fitnessGoals">
+                    <div class="program-card" style="margin-top: 50px;">
+
+                        <div class="header">
+                            <p>Suggested for you</p>
+                        </div>
+
+                        <div class="body pill-container">
+                            <app-fade-in-animation>
+                                <p *ngSwitchCase="'LoseWeight'">
+                                    Lose weight program
+                                </p>
+                                <p *ngSwitchCase="'Strength'">
+                                    Strength program
+                                </p>
+                                <p *ngSwitchCase="'None'">
+                                    None program x
+                                </p>
+                            </app-fade-in-animation>
+                        </div>
+
+
+                        <div class="footer">
+                            <app-slide-in-animation>
+                                <a routerLink="/plans" class="color-btn">
+                                    JOIN
+                                </a>
+                            </app-slide-in-animation>
+                        </div>
+                    </div>
+
+                </ng-container>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="activeModal">
+            <app-modal-profile [profileForm]="profileForm" (submitForm)="createProfile()"></app-modal-profile>
+        </ng-container>
+    </div>
+</section>

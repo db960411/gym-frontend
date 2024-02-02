@@ -1,0 +1,12 @@
+<div class="sh-form_container">
+    <h2>Notifications</h2>
+
+    <div class="settings_flex">
+        <p>Allow notifications <img src="/assets/icons/notifications.svg" style="vertical-align: middle;"
+                alt="notifications icon"></p>
+
+        <div class="slider-container">
+            <mat-slide-toggle [checked]="selectedValue" (change)="onSlideToggleChange($event)"></mat-slide-toggle>
+        </div>
+    </div>
+</div>

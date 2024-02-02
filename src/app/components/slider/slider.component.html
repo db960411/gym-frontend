@@ -1,0 +1,23 @@
+<div class="slider">
+
+    <div *ngFor="let slide of sliderContent; let slideIndex = index">
+        <div class="slide" [ngClass]="{'active': currentIndex === slideIndex}">
+            <img [src]="slide.imageUrl" alt="{{ slide.title }}">
+            <h3>{{ slide.title }}</h3>
+            <p>{{ slide.body?.substring(0, 50) }}</p>
+        </div>
+    </div>
+
+    <div (click)="goToPrevious()" (keydown)="goToPrevious()" tabindex="0" class="leftArrow"><img
+            src="assets/icons/arrow-right.svg" alt="Prev slide"></div>
+    <div (click)="goToNext()" (keydown)="goToNext()" tabindex="0" class="rightArrow"><img
+            src="assets/icons/arrow-right.svg" alt="Next slide"></div>
+
+</div>
+
+<div class="dotsContainer">
+    <div *ngFor="let slide of sliderContent; let slideIndex = index" class="dot" (keydown)="goToSlide(slideIndex)"
+        tabindex="0" (click)="goToSlide(slideIndex)" [ngClass]="{'active': currentIndex === slideIndex}">
+        ●
+    </div>
+</div>

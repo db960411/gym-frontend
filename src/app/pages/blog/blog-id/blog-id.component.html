@@ -1,0 +1,16 @@
+<section class="md-container p-v-50">
+    <div *ngIf="blogData">
+        <div class="hero">
+            <img src="{{blogData.imageUrl}}" alt="blog image" />
+            <h1 class="hero__title">{{blogData.title}}</h1>
+        </div>
+        <div style="padding: 0 30px">
+            <div class="author-container">
+                {{blogData.createdAt | date}} - By {{blogData.author}}
+            </div>
+            <p>{{blogData.body}}</p>
+            <a class="back-btn" routerLink="/blog"><img src="assets/icons/arrow-right.svg" alt="arrow-right"></a>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,38 @@
+<div class="sh-form_container">
+  <h2>Account</h2>
+
+  <div class="settings_flex">
+    <div class="content">
+      <p>{{data?.email}}</p>
+
+      <ng-container *ngIf="!data?.verifiedEmail">
+        <button class="verify-email_block" (click)="submitVerifyEmail()">
+          <img src="/assets/information.png" alt="information icon" />
+          <p>&nbsp;Verify your email adress <img src="/assets/icons/arrow-right.svg" alt="icon arrow right"></p>
+        </button>
+      </ng-container>
+    </div>
+    <div class="settings_edit_icon" *ngIf="!data?.verifiedEmail">
+      <button (click)="settingsService.openModal('email')">
+        <img src="/assets/settings.svg" alt="edit_form_icon" />
+      </button>
+    </div>
+    <div class="settings_edit_icon" *ngIf="data?.verifiedEmail">
+      <img src="/assets/icons/completed.svg" alt="Completed icon" />
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="settings_flex">
+    <div class="content">
+      <p>Password</p>
+      <span>*********</span>
+    </div>
+    <div class="settings_edit_icon">
+      <button (click)="settingsService.openModal('password')">
+        <img src="/assets/settings.svg" alt="edit_form_icon" />
+      </button>
+    </div>
+  </div>
+</div>

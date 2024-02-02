@@ -1,0 +1,13 @@
+<section class="md-container">
+    <div class="verification-container">
+        <ng-container *ngIf="success">
+            <h1>
+                You are now a verified member!
+            </h1>
+            <h3> You can now enjoy more content! 🥳</h3>
+        </ng-container>
+        <h1 *ngIf="error">
+            Something went wrong when verifying email, please try again! 😯
+        </h1>
+    </div>
+</section>
