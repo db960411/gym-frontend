@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Notification } from 'src/app/interface/Notification';
 import { User } from 'src/app/interface/User';
@@ -10,7 +11,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
   userInfo$!: Observable<User>;
   dropdownActive = false;
   profileContainerActive$!: Observable<boolean>;
@@ -20,13 +21,16 @@ export class HeaderComponent implements OnInit {
   notificationItems: Notification[] = [];
   notificationsCount!: number;
   
-  constructor(private authService: AuthService, private elementRef: ElementRef,private renderer: Renderer2, private notificationService: NotificationsService) {}
+  constructor(private authService: AuthService, private elementRef: ElementRef,private renderer: Renderer2, private notificationService: NotificationsService, private router: Router) {}
 
   ngOnInit(): void {
     this.profileContainerActive$ = this.authService.isAuthenticated$;
     this.userInfo$ = this.authService.userInfo$;
+    this.authService.fetchUserInfo().subscribe()
     this.checkWindowSize();
+  }
 
+  ngAfterViewInit(): void {
     this.notificationService.getAllNotificationsByUser().subscribe({
       next: (response) => {
         if (response) {
@@ -94,6 +98,15 @@ export class HeaderComponent implements OnInit {
 
   closeNotifications(): void {
     this.notificationsActive = false;
+  }
+
+  viewNotification(clickedNotification: Notification): void {
+    this.notificationsActive = !this.notificationsActive;
+
+    const index =  this.notificationItems.findIndex(notification => notification === clickedNotification);
+    this.notificationItems[index].seen = true;
+
+    this.router.navigate(['/social']);
   }
 
   toggleNotifications(): void {

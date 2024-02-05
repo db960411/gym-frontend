@@ -2,49 +2,31 @@
     <div class="progressData-container" *ngIf="data?.length > 0; else noProgress">
         <div *ngFor="let exercise of data">
             <app-fade-in-animation>
-                <div class="exercise-item">
+                <div class="exercise-item" *ngIf="exercise">
                     <h3>{{ exercise.exerciseType.name }}</h3>
-                    <form [formGroup]="editForm">
-                        <span *ngIf="exercise.sets || editProgressItem === exercise.id && exercise.sets > 0">
-                            Sets: <input maxlength="3" [(ngModel)]="exercise.sets" [value]="exercise.sets"
-                                [placeholder]="exercise.sets" formControlName="sets" />
-                        </span>
-                        <span *ngIf="exercise.reps || editProgressItem === exercise.id && exercise.reps > 0">
-                            Reps: <input [(ngModel)]="exercise.reps" [value]="exercise.reps"
-                                [placeholder]="exercise.reps" formControlName="reps" />
-                        </span>
-                        <span *ngIf="exercise.weight || editProgressItem === exercise.id && exercise.weight > 0">
-                            Weight: <input [(ngModel)]="exercise.weight" [value]="exercise.weight"
-                                [placeholder]="exercise.weight" formControlName="weight" />
-                        </span>
-                        <span *ngIf="exercise.distance || editProgressItem === exercise.id && exercise.distance > 0">
-                            Distance: <input [(ngModel)]="exercise.distance" [value]="exercise.distance"
-                                [placeholder]="exercise.distance" formControlName="distance" />
-                        </span>
-                        <span *ngIf="exercise.time || editProgressItem === exercise.id && exercise.time > 0">
-                            Time: <input [(ngModel)]="exercise.time" [value]="exercise.time"
-                                [placeholder]="exercise.time" formControlName="time" />
-                        </span>
-                    </form>
-
-                    <button *ngIf="editProgressItem === exercise.id" class="fade-button"
-                        (click)="deleteProgress(exercise.id)">
+                    <span *ngIf="exercise.sets && exercise.sets > 0">
+                        Sets: {{ exercise.sets }}
+                    </span>
+                    <span *ngIf="exercise.reps && exercise.reps > 0">
+                        Reps: {{ exercise.reps }}
+                    </span>
+                    <span *ngIf="exercise.weight && exercise.weight > 0">
+                        Weight: {{ exercise.weight }}
+                    </span>
+                    <span *ngIf="exercise.distance && exercise.distance > 0">
+                        Distance: {{ exercise.distance }}
+                    </span>
+                    <span *ngIf="exercise.time  && exercise.time > 0">
+                        Time: {{ exercise.time }}
+                    </span>
+                    <button class="fade-button" (click)="deleteProgress(exercise.id)">
                         <img src="assets/icons/delete.svg" alt="Delete icon">
                     </button>
 
-                    <button *ngIf="editProgressItem !== exercise.id; else showDoneEditing" class="fade-button edit"
-                        (click)="editProgress(exercise.id)">
-                        <img src="assets/settings.svg" alt="Edit icon">
+                    <button class="fade-button edit" (click)="editProgress(exercise)">
+                        <img src="assets/icons/settings.svg" alt="Edit icon">
                     </button>
-
-                    <ng-template #showDoneEditing>
-                        <button class="fade-button edit active" (click)="submitEditedForm(exercise.id)">
-                            <img src="assets/icons/done.svg" alt="Edit icon">
-                        </button>
-                    </ng-template>
                 </div>
-
-
             </app-fade-in-animation>
         </div>
 
@@ -70,10 +52,10 @@
         <div class="activatedForm-inner">
             <button class="close-form" (click)="deActivateNewProgressForm()"><img src="assets/icons/close.svg"
                     alt="Close icon"></button>
-            <h3>New Progress</h3>
+            <h3>{{editingProgress ? itemSelectedForEdit?.exerciseType?.name : 'New Progress'}}</h3>
 
-            <form [formGroup]="form" (submit)="addProgress()">
-                <mat-form-field appearance="outline">
+            <form [formGroup]="form">
+                <mat-form-field *ngIf="!itemSelectedForEdit" appearance="outline">
                     <mat-label>Search Exercise</mat-label>
                     <mat-select formControlName="exerciseType">
                         <mat-option>
@@ -93,7 +75,6 @@
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
-
 
                 <ng-container *ngIf="(selectedCategory | async) !== 'Cardio'">
                     <mat-form-field appearance="outline">
@@ -130,7 +111,14 @@
                 </ng-container>
 
 
-                <button type="submit"> <img src="assets/icons/arrow-right.svg" alt="Add Icon"></button>
+                <ng-container *ngIf="editingProgress; else addNewProgress">
+                    <button (click)="submitEditProgress()" type="submit"> <img src="assets/icons/arrow-right.svg"
+                            alt="Edit Icon"></button>
+                </ng-container>
+                <ng-template #addNewProgress>
+                    <button (click)="submitAddProgress()" type="submit"> <img src="assets/icons/arrow-right.svg"
+                            alt="Add Icon"></button>
+                </ng-template>
             </form>
         </div>
 

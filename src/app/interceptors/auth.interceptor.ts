@@ -18,16 +18,16 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const authToken = this.authService.getAuthToken()
-    const userInfo = this.authService.userInfo$;
+    const email = this.authService.getEmail();
     
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const options = { headers: headers };
     
-    if (authToken && userInfo) {
+    if (authToken && email) {
       const authRequest = request.clone({
         setHeaders: { 
           Authorization: `Bearer ${authToken}`,
-          Email: userInfo.value.email,
+          Email: `${email}`
         },
         headers: options.headers,
       });

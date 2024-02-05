@@ -37,87 +37,75 @@
                             </div>
                         </div>
                     </ng-container>
-                    <button (click)="nextDay()">Finish day {{currentDay}} <img src="assets/icons/arrow-right.svg"
-                            alt=""></button>
 
-                </div>
-
-
-                <div class="sidebar-container">
-                    <div class="notes-data-container">
-                        <div class=" new-note-container">
-                            <div class="note_text">
-                                <h3>Plan notes </h3>
-                                <img src="assets/icons/notes.svg" alt="">
-                            </div>
-
-                            <button (click)="toggleNoteContainer()"><img
-                                    src="{{toggleShowingNotes ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
-                                    alt=""></button>
-                        </div>
-
-                        <div class="note-form-container" *ngIf="toggleShowingNotes">
-                            <app-fade-in-animation style="width: 100%;">
-
-                                <div class="notes-container">
-                                    <div class="notes-item" *ngFor="let item of notes">
-                                        <p>{{item.title}}</p>
-                                        <span>{{item.content}}</span>
-                                    </div>
+                    <div class="sidebar-container">
+                        <div class="notes-data-container">
+                            <div class=" new-note-container">
+                                <div class="note_text">
+                                    <h3>Plan notes </h3>
+                                    <img src="assets/icons/notes.svg" alt="">
                                 </div>
 
-                                <button style="margin-top: 10px;" (click)="toggleNewNoteToggle()"><img
-                                        src="{{newNoteToggle ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                <button (click)="toggleNoteContainer()"><img
+                                        src="{{toggleShowingNotes ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
                                         alt=""></button>
-
-
-                                <ng-container *ngIf="newNoteToggle">
-                                    <form [formGroup]="notesForm" (ngSubmit)="onSubmitNewNoteForm()">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Title</mat-label>
-                                            <input matInput placeholder="Title" formControlName="title">
-                                            <mat-icon matSuffix>icon</mat-icon>
-                                        </mat-form-field>
-
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Content</mat-label>
-                                            <input matInput placeholder="Title" formControlName="content">
-                                            <mat-icon matSuffix>icon</mat-icon>
-                                        </mat-form-field>
-
-                                        <button type="submit">Add Note</button>
-                                    </form>
-                                </ng-container>
-                            </app-fade-in-animation>
-
-                        </div>
-
-
-                    </div>
-
-                    <div class="progress-section">
-                        <div class="progress-text">
-                            <h3>Progress <img src="assets/icons/progression.svg" alt=""></h3>
-
-                            <button (click)="toggleProgressContainer()"><img
-                                    src="{{toggleShowingProgress ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
-                                    alt=""></button>
-                        </div>
-
-                        <ng-container *ngIf="toggleShowingProgress">
-                            <div class="progress-container">
-                                <app-progress></app-progress>
                             </div>
-                        </ng-container>
+
+                            <div class="note-form-container" *ngIf="toggleShowingNotes">
+                                <app-fade-in-animation style="width: 100%;">
+
+                                    <div class="notes-container">
+                                        <div class="notes-item" *ngFor="let item of notes">
+                                            <p>{{item.title}}</p>
+                                            <span>{{item.content}}</span>
+                                        </div>
+                                    </div>
+
+                                    <button style="margin-top: 10px;" (click)="toggleNewNote()"><img
+                                            src="{{newNoteToggle ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                            alt=""></button>
+                                    <ng-container *ngIf="newNoteToggle">
+                                        <form [formGroup]="notesForm" (ngSubmit)="onSubmitNewNoteForm()">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Title</mat-label>
+                                                <input matInput placeholder="Title" formControlName="title">
+                                                <mat-icon matSuffix>icon</mat-icon>
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Content</mat-label>
+                                                <input matInput placeholder="Title" formControlName="content">
+                                                <mat-icon matSuffix>icon</mat-icon>
+                                            </mat-form-field>
+
+                                            <button type="submit">Add Note</button>
+                                        </form>
+                                    </ng-container>
+                                </app-fade-in-animation>
+                            </div>
+                        </div>
+
+                        <div class="progress-section">
+                            <div class="progress-text">
+                                <h3>Progress <img src="assets/icons/progression.svg" alt=""></h3>
+
+                                <button (click)="toggleProgressContainer()"><img
+                                        src="{{toggleShowingProgress ? 'assets/icons/minus.svg' : 'assets/icons/plus.svg'}}"
+                                        alt=""></button>
+                            </div>
+
+                            <ng-container *ngIf="toggleShowingProgress">
+                                <div class="progress-container">
+                                    <app-progress></app-progress>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
-
-
-
                 </div>
-
-
-
+                <button (click)="nextDay()">Finish day {{currentDay}} <img src="assets/icons/arrow-right.svg"
+                        alt=""></button>
             </div>
+
         </div>
 
         <div *ngIf="finishedPlan">
@@ -145,7 +133,7 @@
                 Ready for your next challenge? Explore our exciting new fitness plans and continue your incredible
                 journey towards a fitter, stronger, and healthier you.
             </p>
-            <button (click)="removePlanFromUser()">
+            <button (click)="completePlanForUser()">
                 Discover Your Next Adventure
                 <img src="assets/icons/arrow-right.svg" alt="Arrow right icon">
             </button>

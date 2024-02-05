@@ -29,6 +29,8 @@ export class UserService {
       )
       .subscribe({
         next: (res) => {
+          console.log(res);
+          
           if (res && res.profileDto != null) {
             this.userHasCreatedProfile$.next(true);
             this.profileData$.next(res.profileDto);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
@@ -11,10 +11,11 @@ import { User } from '../interface/User';
 })
 export class AuthService {
   isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  userInfo$: BehaviorSubject<User> = new BehaviorSubject<User>({displayName: '', email: ''});
+  userInfo$: BehaviorSubject<User> = new BehaviorSubject<User>({displayName: '', email: '', level: '', role: '', profileImageUrl: '' });
   
   constructor(private cookieService: CookieService,  private router: Router, private http: HttpClient) {
     this.isAuthenticated();
+
   }
 
   checkIfAuthenticated(): Observable<boolean> {
@@ -46,7 +47,17 @@ export class AuthService {
     } else {
       this.isAuthenticated$.next(true);
       this.setUserInfoFromLocalStorage();
+      this.fetchUserInfo();
     }
+  }
+
+  fetchUserInfo(): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/user/getUserInformation`).pipe(
+      tap((response) => this.userInfo$.next(response)),
+      tap(() => console.log(this.userInfo$.value)
+      ),
+      catchError((error) => of(error))
+    )
   }
 
   private isTokenExpired(token:string): boolean {
@@ -60,7 +71,6 @@ export class AuthService {
     expirationDate.setUTCSeconds(decodedToken.exp);
 
     return expirationDate < new Date();
-    
   }
 
   private decodeToken(token: string): any {
@@ -80,14 +90,14 @@ export class AuthService {
   }
 
   logIn(formData: unknown): Observable<unknown> {
-    return this.http.post(`${environment.apiUrl}/auth/authenticate`, formData ).pipe(
+    return this.http.post(`${environment.apiUrl}/auth/authenticate`, formData).pipe(
       tap((response: any) => {
         if (!!response.successMessage && !!response.access_token) {
-          const token = response.access_token;
-          this.storeTokenInCookie(token);
+          this.storeTokenAsCookie(response.access_token);
           this.storeEmailInLocalstorage(JSON.stringify(({ email: response.email})));
           this.isAuthenticated$.next(true);
         } else {
+          this.clearCookieAndNavigateToLogin();
           this.isAuthenticated$.next(false);
         }
       }),
@@ -98,9 +108,8 @@ export class AuthService {
       }),
       );
   }
-
   
-  storeTokenInCookie(token: string): void {
+  storeTokenAsCookie(token: string): void {
     this.cookieService.set('token', token, undefined, undefined, undefined, undefined, 'Strict');
   }
 
@@ -120,14 +129,12 @@ export class AuthService {
     }
     return null;
   }
-  
 
   clearCookieAndNavigateToLogin() {
     this.isAuthenticated$.next(false);
     this.cookieService.delete('token', undefined, undefined, undefined, 'Strict');
     this.router.navigate(['/login']);
   }
-  
 
   signUp(formData: object): Observable<object> {
     return this.http.post(`${environment.apiUrl}/auth/register`, formData).pipe(

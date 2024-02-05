@@ -1,5 +1,5 @@
 <ng-container *ngIf="!submitted;">
-    <div class="checkout-form">
+    <div id="card-element" class="checkout-form">
         <form (ngSubmit)="submitPayment()">
             <div *ngIf="error" id="card-errors" role="alert">
                 {{ errorMessage }}

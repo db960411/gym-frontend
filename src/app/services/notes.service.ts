@@ -15,7 +15,6 @@ export class NotesService{
     return this.http.get(`${environment.apiUrl}/notes?page=${page}&size=${size}&category=${category}`);
   }
 
-
   addNewNote(data: any): Observable<any> {
     const objectData = { title: data.title, content: data.content, category: data.category };
     return this.http.post(`${environment.apiUrl}/notes/add-note`, objectData);

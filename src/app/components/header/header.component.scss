@@ -90,7 +90,6 @@ header {
             position: relative;
 
             span {
-                padding-left: 5px;
                 font-size: 16px;
                 color: $primary-light;
             }
@@ -211,6 +210,8 @@ header {
         justify-content: center;
         min-width: 300px;
         background-color: #fff;
+        border-radius: 12px;
+        padding-bottom: 30px;
 
 
         .settings-icon {
@@ -245,10 +246,19 @@ header {
         .notification-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             width: 100%;
             padding: 8px;
             position: relative;
+
+            span {
+                margin: 0 10px;
+                font-size: 10px;
+            }
+
+            button {
+                margin-left: 15px;
+                font-size: 10px;
+            }
 
             .profile-icon {
                 border-radius: 50%;
@@ -278,14 +288,14 @@ header {
 
             span {
                 color: $primary-dark;
-                font-size: 12px;
+                font-size: 10px;
                 line-height: 16px;
             }
 
             .createdAt {
                 position: absolute;
                 left: 8px;
-                bottom: 0;
+                bottom: -20px;
                 font-size: 8px;
 
             }

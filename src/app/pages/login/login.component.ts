@@ -43,9 +43,6 @@ export class LoginComponent {
 
     const plainFormData = this.formData.getRawValue();
 
-    console.log("plainFormData", plainFormData);
-    
-
     this.authService.logIn(plainFormData).subscribe({
       next: (res: any) => {
         if (res.errorMessage) {
@@ -56,7 +53,6 @@ export class LoginComponent {
       },
       error: (err) => console.log(err),
       complete: () => {
-
         this.loading = false;
       } 
     });

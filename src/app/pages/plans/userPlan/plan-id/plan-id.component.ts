@@ -26,7 +26,7 @@ export class PlanIdComponent implements OnInit {
   toggleShowingProgress = false;
 
 
-  constructor(private progressService: ProgressService, private notesService: NotesService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private plansService: PlansService, private toastService: ToastrService, private formBuilder: FormBuilder) {
+  constructor(private notesService: NotesService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private plansService: PlansService, private toastService: ToastrService, private formBuilder: FormBuilder) {
     this.notesForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       content: ['', [Validators.required]],
@@ -40,6 +40,7 @@ export class PlanIdComponent implements OnInit {
         this.router.navigate(['/plans']);
       } else {
         if (response.day > 30) {
+          console.log("lol");
           this.finishedPlan = true;
         }
         this.currentDay = response.day;
@@ -75,21 +76,21 @@ export class PlanIdComponent implements OnInit {
   nextDay() {
     this.plansService.updatePlanProgressionDay().subscribe({
       next: (response) => {
-        if (response.day <= 30) {
+        if (response.completed) {
+          this.finishedPlan = true;
+          this.toastService.success("Completed plan!");
+        } else {
           this.currentDay = response.day;
           this.fetchPlanData(this.currentDay);
         }
       },
       error: (response) => {
-        if (response.error.day > 30) {
-          this.finishedPlan = true;
-          this.toastService.success("You have finished the plan! 🎉");
-        }
+        console.log(response);
       }
     })
   }
 
-  toggleNewNoteToggle() {
+  toggleNewNote() {
     this.newNoteToggle = !this.newNoteToggle;
   }
 
@@ -118,23 +119,24 @@ export class PlanIdComponent implements OnInit {
   }
 
   onSubmitNewNoteForm() {
+   this.notesForm.controls['category'].setValue("plan");
+    
     if (this.notesForm.valid) {
     this.notesService.addNewNote(this.notesForm.value).subscribe({
       next: (response) => {
-        this.notes.unshift(response.body);
-        this.toggleNewNoteToggle();
         this.notesForm.reset();
+        this.notes.unshift(response.body);
+        this.toggleNewNote();
       },
-      error: (response) => {
-        console.log(response)
-        this.toggleNewNoteToggle();
+      error: () => {
+        this.toggleNewNote();
       }
     })
   }
   }
 
   getPlanNotes(): void {
-    this.notesService.getNotesByUser(0, 3, "plan").subscribe({
+    this.notesService.getNotesByUser(0, 6, "plan").subscribe({
       next: (response) => {
         this.notes = response.notes;
       },
@@ -144,11 +146,10 @@ export class PlanIdComponent implements OnInit {
     })
   }
 
-  removePlanFromUser() {
-    this.plansService.cancelPlanProgressionByUser().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.toastService.success("Updated your plan!");
+  completePlanForUser() {
+    this.plansService.completePlanForUser().subscribe({
+      next: () => {
+        this.toastService.success("Completed plan, user level updated!");
         this.router.navigate([`/plans`]);
       },
       error: (response) => {

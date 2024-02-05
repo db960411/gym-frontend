@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { Exercise } from 'src/app/interface/Exercise';
+import { ProgressData } from 'src/app/interface/ProgressData';
 import { ProgressService } from 'src/app/services/progress.service';
 
 @Component({
@@ -15,13 +16,13 @@ export class ProgressComponent implements OnInit {
   showSubscriptionButton = false;
   activatedForm: boolean;
   form: FormGroup;
-  editForm: FormGroup; 
   loading = false;
   filteredExercises!: Observable<Exercise[]>;
   selectedCategory!: Observable<any>;
   exercisesGroupsFilterCtrl = new FormControl();
   profileCreated = false;
-  editProgressItem = "";
+  editingProgress = false;
+  itemSelectedForEdit: ProgressData | null = null;
 
   categories: string[] = [
     'Upper Body',
@@ -67,14 +68,6 @@ export class ProgressComponent implements OnInit {
       weight: [null],
       distance: [null],
       time: [null],
-    });
-
-    this.editForm = this.formBuilder.group({
-      sets: this.formBuilder.control({ value: null, disabled: true }),
-      reps: this.formBuilder.control({ value: null, disabled: true }),
-      weight: this.formBuilder.control({ value: null, disabled: true }),
-      distance: this.formBuilder.control({ value: null, disabled: true }),
-      time: this.formBuilder.control({ value: null, disabled: true }),
     });
   }
 
@@ -145,43 +138,48 @@ export class ProgressComponent implements OnInit {
     });
   }
 
-  submitEditedForm(exerciseId: string): void {
-    console.log(this.editForm.valid)
-    console.log(this.editForm.value);
-    
-    if (this.editForm.valid) {
-    this.progressService.editProgress(exerciseId, this.editForm.value).subscribe({
-      next: () => {
+  editProgress(exercise: Exercise): void {
+    this.editingProgress = true;
+
+    const itemBeingEdited = this.data.find((item: Exercise) => item.id === exercise.id);
+    this.itemSelectedForEdit = itemBeingEdited
+
+    Object.keys(this.form.controls).forEach(controlName => {
+      const control = this.form.controls[controlName];
+      
+      if(controlName in itemBeingEdited) {
+        control.setValue(itemBeingEdited[controlName])
+      }
+    })
+
+    this.activatedForm = true;
+  }
+
+  submitEditProgress(): void {
+    if (this.form.valid && this.itemSelectedForEdit) {
+    this.progressService.editProgress(this.itemSelectedForEdit.id, this.form.value).subscribe({
+      next: (response) => {
         this.toastService.success('Edited progress!');
-        this.editProgressItem = "";
+
+        this.data = this.data.map((item: Exercise) => item.id === response.id ? response : item);
+      
+        this.editingProgress = false;
+        this.activatedForm = false;
+        this.itemSelectedForEdit = null;
       },
       error: () => {
         this.toastService.error("Couldn't edit progress!");
+        this.editingProgress = false;
+        this.activatedForm = false;
       },
     })
     }
   }
 
-  editProgress(exerciseId: string): void {
-    this.editProgressItem = this.editProgressItem === exerciseId ? '' : exerciseId;
-    const formControls = ['sets', 'reps', 'weight', 'distance', 'time'];
-    if (this.editProgressItem === exerciseId) {
-      formControls.forEach((controlName) => {
-        this.editForm.controls[controlName].enable();
-      });
-    } else {
-      formControls.forEach((controlName) => {
-        this.editForm.controls[controlName].disable();
-      });
-    }
-  }
-
-
-  addProgress(): void {
+  submitAddProgress(): void {
     if (this.form.invalid) {
       return;
     }
-
     const formData = this.form.value;
     this.progressService.addProgress(formData).subscribe({
       next: (response) => {
@@ -193,14 +191,12 @@ export class ProgressComponent implements OnInit {
       error: (errorResponse) => {
         if (errorResponse.status === 403) {
           this.toastService.error('Only 9 progressions allowed for basic subscriptions');
-          this.form.reset();
-          this.activatedForm = false;
           this.showSubscriptionButton = true;
+          this.activatedForm = false;
+          this.form.reset();
         }
         else if (errorResponse.status === 406) {
           this.toastService.error('You have already added this progress');
-          this.form.reset();
-          this.activatedForm = false;
         }
       },
     });

@@ -24,6 +24,10 @@ export class PlansService {
   checkPlanStatus(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/plans/checkPlanStatusForUser`);
   }
+
+  completePlanForUser(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/plans/completePlanForUser`);
+  }
  
   assignPlan(selectedPlan: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/plans/assignPlanToUser`, selectedPlan)

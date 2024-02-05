@@ -102,39 +102,41 @@ export class SocialComponent implements OnInit {
       } else {
         this.errorMessage = "";
         this.toastrService.success("Accepted friend request");
-  
-        const friendIndex = this.socialData.friendRequests?.userInfo.findIndex(
-          (friend) => friend.socialId === friendSocialId
-        );
-        if (friendIndex !== -1) {
-          this.socialData.friendRequests.userInfo.splice(friendIndex, 1);
-        }
-  
+
+        const friendsUserInfo = response.friends.
+        filter((friend: Friends) => friend.userSocialId === friendSocialId)
+        .map((item: Friends) => item);
+
         const newFriend: Friends = {
           errorMessage: null,
-          planProgressionDto: null,
-          profileDto: null,
+          planProgressionDto: friendsUserInfo.planProgressionDto,
+            profileDto: friendsUserInfo.profileDto,
           userInfo: {
-            email: response.userInfo.email,
-            role: response.userInfo.role,
-            level: response.userInfo.level,
+            email: friendsUserInfo[0].userInfo.email,
+            role: friendsUserInfo[0].userInfo.role,
+            level: friendsUserInfo[0].userInfo.level,
             socialId: friendSocialId,
-            profileImageUrl: response.userInfo.profileImageUrl
+            profileImageUrl: friendsUserInfo[0].userInfo.profileImageUrl
           },
-          userSocialId: friendSocialId,
+          userSocialId: friendsUserInfo[0].userSocialId,
         };
-  
-        if (!this.socialData.friends) {
-          this.socialData.friends = [];
-        }
-        
-        const existingFriend = this.socialData.friends.find(
+
+        const existingFriendIndex = this.socialData.friends.findIndex(
           (friend) => friend.userInfo.socialId === friendSocialId
         );
         
-        if (!existingFriend) {
+        if (existingFriendIndex === -1) {
+          const friendRequestsIndex = this.socialData.friendRequests?.userInfo.findIndex(
+            (friend) => friend.socialId === friendSocialId
+          );
+        
+          if (friendRequestsIndex !== -1) {
+            this.socialData.friendRequests?.userInfo.splice(friendRequestsIndex, 1);
+          }
+        
           this.socialData.friends.push(newFriend);
         }
+        
       }
     });
   }

@@ -40,11 +40,7 @@
                 <div class="header_dropdown" [ngClass]="{ active: notificationsActive }">
                     <div class="header_container">Notifications <a (click)="closeNotifications()" tabindex="0"
                             (keydown.enter)="closeNotifications();" routerLink="/settings"><img class="settings-icon"
-                                src="assets/settings.svg" alt="edit icon" /></a>
-                    </div>
-
-                    <div *ngIf="!notificationsCount">
-                        <p style="font-size: 11px; padding: 8px;">No unseen notifications...</p>
+                                src="assets/icons/settings.svg" alt="edit icon" /></a>
                     </div>
 
                     <div class="inner_dropdown" *ngFor="let notification of notificationItems">
@@ -63,13 +59,13 @@
 
                             <span>{{notification?.friendDisplayName | titlecase}}</span>
 
-                            <a style="font-size: 10px; font-weight: 400;" tabindex=" 0"
-                                href="/social#friendRequests-container" routerLinkActive="active"
-                                class="btn-transparent">{{notification?.title}}</a>
+                            <button style="font-size: 10px; font-weight: 400; color: black;" tabindex=" 0"
+                                routerLinkActive="active" class="btn-transparent"
+                                (click)="viewNotification(notification)">{{notification?.title}}</button>
 
                             <div *ngIf="!notification.seen" class="activeNotification"></div>
 
-                            <span class="createdAt">{{notification.createdAt | date: 'short'}}</span>
+                            <p class="createdAt">{{notification.createdAt | date: 'short'}}</p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +78,15 @@
             <ng-container *ngIf="(profileContainerActive$ | async)">
                 <ng-container *ngIf="userInfo$ | async as user">
                     <div class="rounded_profile_letter" tabindex="0" (keydown.enter)="toggleDropdown();">
-                        {{ user.displayName ? (user.displayName | slice:0:1) : (user.email | slice: 0:1) }}
+                        <span *ngIf="user.profileDto as dto; else displayEmailLetter">
+                            {{ dto.displayName.slice(0,1) }}
+                        </span>
+                        <ng-template #displayEmailLetter>
+                            <span>
+                                {{user.email | slice: 0:1 }}
+                            </span>
+                        </ng-template>
+
                     </div>
                     <span>{{ user.displayName }}</span>
 

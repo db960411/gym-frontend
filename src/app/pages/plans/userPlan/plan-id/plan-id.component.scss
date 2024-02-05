@@ -10,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    flex-direction: column;
 
     .new-note-container {
         display: flex;
@@ -37,6 +38,8 @@
         .notes-container {
             border-bottom: 1px solid #cccccc28;
             padding-bottom: 30px;
+            max-height: 600px;
+            overflow-y: scroll;
         }
 
         form {
@@ -160,6 +163,7 @@ button {
     flex-direction: column;
     width: 100%;
     flex: 0.3;
+    max-width: 300px;
 }
 
 @media (max-width: 768px) {

@@ -33,7 +33,6 @@ export class EmailComponent {
 
     const newEmail = this.formData.value.newEmail;
 
-  
     this.settingsService.updateEmail(newEmail).subscribe({
       next: (response: any) => {
         if (response.successMessage) {
@@ -44,7 +43,7 @@ export class EmailComponent {
           console.log(userInfo)
           localStorage.setItem("userInfo", JSON.stringify(({email: newEmail, displayName: userInfo.displayName})));
           this.authService.userInfo$.value.email = newEmail;
-          this.authService.storeTokenInCookie(response.jwtToken);
+          this.authService.storeTokenAsCookie(response.jwtToken);
           
           this.toastr.success("Email updated successfully");
           this.closeModal();
