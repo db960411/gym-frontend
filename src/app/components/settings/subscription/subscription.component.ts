@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SettingsService } from 'src/app/services/settings/settings.service';
 
 @Component({
   selector: 'app-settings-subscription',
@@ -6,8 +8,14 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['../../../pages/settings/settings.component.scss']
 
 })
-export class SubscriptionComponent {
-  @Input() data: any;
+export class SubscriptionComponent implements OnInit{
+  data$: Observable<any> = new Observable<any>();
+
+  constructor(private settingsService: SettingsService){}
+
+  ngOnInit(): void {
+      this.data$ = this.settingsService.userSettingsData$;
+  }
 
 
 }

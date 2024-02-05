@@ -6,18 +6,13 @@
     </div>
 
     <div class="settings-inner">
-      <ng-container *ngIf="data$ | async">
-        <settings-account [data]="data$ | async" [ngClass]="'settings_card'"></settings-account>
-        <app-settings-subscription *ngIf="data$ | async" [data]="data$ | async"
-          [ngClass]="'settings_card'"></app-settings-subscription>
-        <settings-language *ngIf="(data$ | async).language" [data]="data$ | async"
-          [ngClass]="'settings_card'"></settings-language>
-        <app-settings-notifications [data]="(data$ | async).allowNotifications"
-          [ngClass]="'settings_card'"></app-settings-notifications>
-        <settings-communication [data]="(data$ | async).receiveEmails"
-          [ngClass]="'settings_card'"></settings-communication>
-        <app-settings-plan-progression *ngIf="(data$ | async)?.planProgressionDto"
-          [data]="(data$ | async)?.planProgressionDto" [ngClass]="'settings_card'"></app-settings-plan-progression>
+      <ng-container *ngIf="data$ | async as data">
+        <settings-account [ngClass]="'settings_card'"></settings-account>
+        <app-settings-subscription [ngClass]="'settings_card'"></app-settings-subscription>
+        <settings-language [ngClass]="'settings_card'"></settings-language>
+        <app-settings-notifications [ngClass]="'settings_card'"></app-settings-notifications>
+        <settings-communication [ngClass]="'settings_card'"></settings-communication>
+        <app-settings-plan-progression [ngClass]="'settings_card'"></app-settings-plan-progression>
       </ng-container>
     </div>
   </div>

@@ -39,14 +39,13 @@ export class LanguageModal {
     const selectedLanguage = this.formData.value.selectedLanguage;
 
     this.settingsService.updateLanguage(selectedLanguage).subscribe({
-      next: (response: any) => {
-        console.log(response)
+      next: () => {
         this.success = true;
         this.formData.reset();
         this.toastr.success("Language updated successfully");
         this.closeModal();
       },
-      error: (error: any) => {
+      error: () => {
         this.error = true;
         this.toastr.error("Could not set the language to " + selectedLanguage);
       }

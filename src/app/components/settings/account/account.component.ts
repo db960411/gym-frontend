@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 
 @Component({
@@ -8,13 +9,15 @@ import { SettingsService } from 'src/app/services/settings/settings.service';
   styleUrls: ['../../../pages/settings/settings.component.scss']
 
 })
-export class AccountComponent {
-  @Input() data: any;
+export class AccountComponent implements OnInit {
+  data$: Observable<any> = new Observable();
 
   constructor(public settingsService: SettingsService, private toastrService: ToastrService) {}
 
+  ngOnInit(): void {
+      this.data$ = this.settingsService.userSettingsData$;
+  }
 
-  
   submitVerifyEmail(): void {
     this.settingsService.verifyEmailAddress().subscribe((resp) => {
      if (resp.successMessage) {

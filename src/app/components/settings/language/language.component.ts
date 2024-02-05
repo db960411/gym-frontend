@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable, filter, tap } from 'rxjs';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 
 @Component({
@@ -7,9 +8,15 @@ import { SettingsService } from 'src/app/services/settings/settings.service';
   styleUrls: ['../../../pages/settings/settings.component.scss']
 
 })
-export class LanguageComponent {
-  @Input() data: any;
+export class LanguageComponent implements OnInit{
+  data$: Observable<any> = new Observable();
 
   constructor(public settingsService: SettingsService) {}
+
+  ngOnInit(): void {
+      this.data$ = this.settingsService.userSettingsData$.pipe(
+        filter(data => data.language),
+      );
+  }
 
 }

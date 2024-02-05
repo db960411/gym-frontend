@@ -22,7 +22,7 @@
                     <ng-container>
                         <span>{{ socialData.profileInfo?.displayName }}</span>
                     </ng-container>
-                    <span>{{ socialData.userSocialId }}</span>
+                    <span style="color: #fff;">{{ socialData.userSocialId }}</span>
                 </div>
 
                 <ng-container *ngIf="toggledUserProgress">
@@ -92,9 +92,9 @@
                         <span>{{ friend.profileDto.displayName }}</span>
                     </ng-container>
                     <ng-template #showEmail>
-                        <span>{{ friend.userInfo.email }}</span>
+                        <span style="font-size: 11px;">{{ friend.userInfo.email }}</span>
                     </ng-template>
-                    <span *ngIf="friend.userSocialId">{{ friend.userSocialId }}</span>
+                    <span *ngIf="friend.userSocialId" style="color: #fff;">{{ friend.userSocialId }}</span>
                 </div>
 
                 <ng-container *ngIf="
@@ -108,34 +108,41 @@
                         </div>
                     </div>
 
-                    <div class="friendProgressionModal-inner">
-                        <ng-container *ngIf="friendProgressionData[friend.userSocialId]; else noProgressForFriend">
-                            <div *ngFor="let progress of friendProgressionData[friend.userSocialId];">
+                    <div class="friendProgressionModal-inner"
+                        *ngIf="!friendsDataLoading[friend.userSocialId]; else showfriendsLoading">
+                        <ng-container
+                            *ngIf="friendProgressionData[friend.userSocialId].length > 0; else noProgressForFriend">
+                            <div *ngFor="let progress of friendProgressionData[friend.userSocialId]">
                                 <app-fade-in-animation>
                                     <div class="progression-modal-item">
-                                        <p class="number" *ngIf="progress.exerciseType.name">
+                                        <p class="number" *ngIf="progress.exerciseType?.name">
                                             {{ progress.exerciseType.name }}
                                         </p>
                                         <span *ngIf="progress.sets">Sets: <span class="number">{{ progress.sets
                                                 }}</span></span>
                                         <span *ngIf="progress.reps">Reps: <span class="number">{{ progress.reps
                                                 }}</span></span>
-                                        <span *ngIf="progress.weight">Weight: <span class="number">{{
-                                                progress.weight
+                                        <span *ngIf="progress.weight">Weight: <span class="number">{{ progress.weight
                                                 }}</span></span>
-                                        <span *ngIf="progress.distance">Distance:
-                                            <span class="number">{{ progress.distance }}</span></span>
+                                        <span *ngIf="progress.distance">Distance: <span class="number">{{
+                                                progress.distance }}</span></span>
                                         <span *ngIf="progress.time">Time: <span class="number">{{ progress.time
                                                 }}</span></span>
                                     </div>
                                 </app-fade-in-animation>
                             </div>
                         </ng-container>
+
                         <ng-template #noProgressForFriend>
-                            <p style="color: #fff; padding: 30px;">{{friend.userInfo.email}} has no progress added so
+                            <p style="color: #fff; padding: 30px;">{{friend.profileDto?.displayName ?
+                                friend.profileDto?.displayName : friend.userInfo.email }} has no progress added
+                                so
                                 far...</p>
                         </ng-template>
                     </div>
+                    <ng-template #showfriendsLoading>
+                        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                    </ng-template>
                 </ng-container>
             </div>
         </div>
@@ -157,38 +164,46 @@
                     <span>{{ errorMessage }}</span>
                 </div>
             </form>
+
+            <div *ngIf="socialData.friendRequests" style="padding-top: 50px;">
+                <a href="/social#friendRequests-container">
+                    {{ socialData.friendRequests.userInfo.length }} new friend requests <img
+                        src="assets/icons/arrow-right.svg" alt="">
+                </a>
+            </div>
         </app-fade-in-animation>
+
+    </aside>
+
+
+    <div class="friendRequests-container" id="friendRequests-container"
+        *ngIf="socialData.friendRequests?.userInfo as friendRequests">
         <app-slide-in-animation>
-            <div class="friendRequests-container" *ngIf="socialData.friendRequests?.userInfo as friendRequests">
-                <p *ngIf="socialData.friendRequests">
-                    Friend requests: {{ socialData.friendRequests.userInfo.length }}
-                </p>
-
-                <div class="profile-container" *ngFor="let friendData of friendRequests">
-                    <div class="profile-pic">
-                        <ng-container *ngIf="friendData?.profileImageUrl !== null; else emptyProfileImageUrl">
-                            <img src="{{friendData.profileImageUrl}}" alt="prof pic" />
-                        </ng-container>
-                        <ng-template #emptyProfileImageUrl>
-                            <div class="rounded_profile_letter" tabindex="0">
-                                {{ (friendData?.displayName | slice:0:1) || (socialData.userInfo.email |
-                                slice:0:1) }}
-                            </div>
-                        </ng-template>
-                    </div>
-                    <ng-container *ngIf="friendData.displayName; else showFriendEmail">
-                        <span>{{ friendData.displayName }}</span>
+            <div class="profile-container" *ngFor="let friendData of friendRequests">
+                <div class="profile-pic">
+                    <ng-container *ngIf="friendData?.profileImageUrl !== null; else emptyProfileImageUrl">
+                        <img src="{{friendData.profileImageUrl}}" alt="prof pic" />
                     </ng-container>
-                    <ng-template #showFriendEmail>
-                        <span>{{ friendData.email }}</span>
+                    <ng-template #emptyProfileImageUrl>
+                        <div class="rounded_profile_letter" tabindex="0">
+                            {{ (friendData?.displayName | slice:0:1) || (socialData.userInfo.email |
+                            slice:0:1) }}
+                        </div>
                     </ng-template>
-                    <span>{{ friendData.socialId }}</span>
-
-                    <button class="addFriendButton" (click)="acceptFriendRequest(friendData.socialId)">
-                        Accept friend
-                    </button>
                 </div>
+                <ng-container *ngIf="friendData.displayName; else showFriendEmail">
+                    <span>{{ friendData.displayName }}</span>
+                </ng-container>
+                <ng-template #showFriendEmail>
+                    <span>{{ friendData.email }}</span>
+                </ng-template>
+                <span style="color: #fff;">{{ friendData.socialId }}</span>
+
+                <button class="addFriendButton" (click)="acceptFriendRequest(friendData.socialId)">
+                    Accept friend
+                </button>
             </div>
         </app-slide-in-animation>
-    </aside>
+    </div>
+
 </section>

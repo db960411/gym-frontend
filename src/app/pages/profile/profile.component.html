@@ -75,9 +75,9 @@
                                         tabindex="0"></button>
                                 <div class="profileImageForm-inner">
                                     <form [formGroup]="profileImageForm" (ngSubmit)="onSubmitImageForm()">
-                                        <span>Update profile picture with a valid url</span>
+                                        <span style="margin: 30px 0;">Update profile picture with a valid url</span>
                                         <mat-form-field appearance="outline">
-                                            <mat-label>New image url</mat-label>
+                                            <mat-label style="font-size: 13px;">New image url</mat-label>
                                             <input matInput placeholder="Image url" formControlName="profileImageUrl">
                                             <mat-icon matSuffix>icon</mat-icon>
                                         </mat-form-field>

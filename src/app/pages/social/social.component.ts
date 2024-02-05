@@ -26,9 +26,9 @@ export class SocialComponent implements OnInit {
   selectedFriendId!: number;
   userProgressLoading!: boolean;
   loading = false;
-
-  friendProgressionData: { [key: number]: ProgressData[] } = {};
+  friendProgressionData: { [key: string]: ProgressData[] } = {};
   friendProfileModals: { [key: string]: boolean } = {};
+  friendsDataLoading: { [key: string]: boolean } = {};
 
   constructor(
     private socialService: SocialService,
@@ -170,17 +170,21 @@ export class SocialComponent implements OnInit {
 
   toggleFriendProfile(friendSocialId: number): void {
     this.friendProfileModals[friendSocialId] = !this.friendProfileModals[friendSocialId];
+    this.friendsDataLoading[friendSocialId] = true;
   
-    if (!this.friendProgressionData[friendSocialId] || this.friendProgressionData[friendSocialId].length === 0) {
       this.socialService.getProgressOfFriend(friendSocialId).subscribe({
         next: (response) => {
-          this.friendProgressionData = response;
+          this.friendProgressionData = {
+            ...this.friendProgressionData,
+            [friendSocialId]: response
+          };
+        this.friendsDataLoading[friendSocialId] = false;
         },
         error: (error) => {
-          console.log(error);
+        console.log(error);
+        this.friendsDataLoading[friendSocialId] = false;
         }
       });
-    }
   }
 
   openFriendProgressModal(data: ProgressData[]) {

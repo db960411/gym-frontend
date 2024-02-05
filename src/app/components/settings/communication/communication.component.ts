@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Observable, Subject, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 
 @Component({
@@ -11,14 +11,14 @@ import { SettingsService } from 'src/app/services/settings/settings.service';
 })
 export class CommunicationComponent implements OnInit {
   selectedValue!: boolean;
-  @Input() data: any;
+  data$: Observable<any> = new Observable();
 
   private toggleChangeSubject = new Subject<boolean>();
 
   constructor(private settingsService: SettingsService, private toastrService: ToastrService){}
 
   ngOnInit(): void {
-    this.selectedValue = this.data?.receiveEmails;
+   this.settingsService.userSettingsData$.subscribe(data => this.selectedValue = data.receiveEmails);
     
     this.toggleChangeSubject.next(this.selectedValue);
     

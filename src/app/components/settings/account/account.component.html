@@ -1,7 +1,7 @@
 <div class="sh-form_container">
   <h2>Account</h2>
 
-  <div class="settings_flex">
+  <div class="settings_flex" *ngIf="data$ | async as data">
     <div class="content">
       <p>{{data?.email}}</p>
 

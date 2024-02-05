@@ -146,6 +146,7 @@
     box-shadow: 0 4px 6px $primary-orange, 0 5px 15px rgba(0, 0, 0, 0.08);
     transition: 0.3s ease-in-out;
     max-width: 370px;
+    width: 100%;
 
     button {
         margin: 0 auto;
@@ -219,4 +220,8 @@
 .welcome-new-profile {
     padding: 0 30px;
     padding-bottom: 50px;
+}
+
+.matInput-sm {
+    font-size: 11px;
 }

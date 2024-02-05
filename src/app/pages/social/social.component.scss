@@ -3,7 +3,6 @@
 .section-container {
     padding: 15px;
     padding-bottom: 200px;
-    background-color: $primary-background;
 }
 
 .social-container {
@@ -110,8 +109,7 @@
 }
 
 .friendRequests-container {
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
 
     .profile-container:nth-child(n + 2) {
         margin-top: 30px;

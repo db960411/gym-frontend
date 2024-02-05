@@ -1,12 +1,17 @@
 <div class="sh-form_container">
     <h2>Subscription</h2>
 
-    <div class="settings_flex">
+    <div class="settings_flex" *ngIf="data$ | async as data">
         <div class="content">
             <p>{{data?.subscriptionType}}</p>
         </div>
-        <div class="settings_edit_icon">
-            <img src="/assets/settings.svg" alt="edit_form_icon" />
-        </div>
+        <ng-container *ngIf="data.verifiedEmail; else verifyEmailFirst">
+            <a [routerLink]="['/checkout']" class="settings_edit_icon">
+                <img src="/assets/settings.svg" alt="edit_form_icon" />
+            </a>
+        </ng-container>
+        <ng-template #verifyEmailFirst>
+            <span>Please verify email first in order to subscribe 😀</span>
+        </ng-template>
     </div>
 </div>

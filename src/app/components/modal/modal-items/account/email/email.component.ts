@@ -14,7 +14,7 @@ export class EmailComponent {
   newEmail = ''; 
   success = false;
   error = false;
-  errorMessage = 'Could not update the email address';
+  errorMessage!: string;
   formData: FormGroup; 
 
   constructor(private authService: AuthService,private settingsService: SettingsService, private toastr: ToastrService, private formBuilder: FormBuilder){
@@ -48,6 +48,9 @@ export class EmailComponent {
           
           this.toastr.success("Email updated successfully");
           this.closeModal();
+        } else if (response.errorMessage) {
+          this.errorMessage = response.errorMessage;
+          this.toastr.error(response.errorMessage);
         } else {
           this.error = true;
         }

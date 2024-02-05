@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, catchError, finalize, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, finalize, map, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -45,12 +45,22 @@ export class SettingsService {
 
   cancelPlanProgression(): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/account-settings/remove-plan`).pipe(
-      tap(response => this.userSettingsData$.next(response))
+      tap((resp: any) => {
+        const currentData = this.userSettingsData$.value;
+        const updateData = {...currentData, plan: resp }
+        this.userSettingsData$.next(updateData);
+      })
     );
   }
 
   updateEmail(newEmail: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/account-settings/change-email`, newEmail );
+    return this.http.post(`${environment.apiUrl}/account-settings/change-email`, newEmail ).pipe(
+      tap(() => {
+        const currentData = this.userSettingsData$.value;
+        const updateData = {...currentData, email: newEmail }
+        this.userSettingsData$.next(updateData);
+      }
+    ));
   }
 
   updatePassword(newPassword: string): Observable<any> {
@@ -58,7 +68,13 @@ export class SettingsService {
   }
 
   updateLanguage(selectedLanguage: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/account-settings/change-language`, selectedLanguage);
+    return this.http.post(`${environment.apiUrl}/account-settings/change-language`, selectedLanguage).pipe(
+      tap(() => {
+        const currentData = this.userSettingsData$.value;
+        const updateData = {...currentData, language: selectedLanguage};
+        this.userSettingsData$.next(updateData);
+      })
+    )
   }
 
   receiveEmails(selectedValue: boolean): Observable<any> {
@@ -70,7 +86,7 @@ export class SettingsService {
   }
 
   verifyEmailAddress(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/account-settings/verify-email`);
+    return this.http.get(`${environment.apiUrl}/account-settings/verify-email`)
   }
-
+  
 }

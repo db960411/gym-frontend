@@ -44,7 +44,7 @@
                     </div>
 
                     <div *ngIf="!notificationsCount">
-                        <p style="font-size: 11px; padding: 8px;">No notifications so far...</p>
+                        <p style="font-size: 11px; padding: 8px;">No unseen notifications...</p>
                     </div>
 
                     <div class="inner_dropdown" *ngFor="let notification of notificationItems">
@@ -63,8 +63,9 @@
 
                             <span>{{notification?.friendDisplayName | titlecase}}</span>
 
-                            <a style="font-size: 10px; font-weight: 400;" tabindex=" 0" routerLink="/social"
-                                routerLinkActive="active" class="btn-transparent">{{notification?.title}}</a>
+                            <a style="font-size: 10px; font-weight: 400;" tabindex=" 0"
+                                href="/social#friendRequests-container" routerLinkActive="active"
+                                class="btn-transparent">{{notification?.title}}</a>
 
                             <div *ngIf="!notification.seen" class="activeNotification"></div>
 
