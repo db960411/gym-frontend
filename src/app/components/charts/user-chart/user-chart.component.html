@@ -1,0 +1,36 @@
+<section>
+    <div class="pill-container">
+        All Users Weekly Count
+    </div>
+
+    <ng-container *ngIf="subscriptionDataLoading | async">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <p>Loading all registered users data...</p>
+    </ng-container>
+
+    <ng-container *ngIf="(userRegistrationDataLoading | async) === false">
+        <ngx-charts-bar-vertical [view]="[1000,400]" [results]="allUsersGraphData" [xAxisLabel]="xAxisLabel"
+            [legendTitle]="'Week'" [yAxisLabel]="yAxisLabel" [legend]="true" [showXAxisLabel]="true"
+            [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true" [gradient]="gradient">
+            [xAxisTickFormatting]="xAxisTickFormatting"
+            [yAxisTickFormatting]="yAxisTickFormatting"
+        </ngx-charts-bar-vertical>
+    </ng-container>
+
+    <ng-container *ngIf="subscriptionDataLoading | async">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <p>Loading new subscriptions and new users registration data... </p>
+    </ng-container>
+
+    <div class="pill-container">
+        New Subscriptions And New Users Weekly Count
+    </div>
+
+    <ng-container
+        *ngIf="(subscriptionDataLoading | async) === false && (userRegistrationDataLoading | async) === false">
+        <ngx-charts-line-chart [view]="[1000, 400]" [legend]="true" [legendTitle]="'Type'" [showXAxisLabel]="true"
+            [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true" [xAxisLabel]="'Week'" [yAxisLabel]="'Amount'"
+            [gradient]="true" [timeline]="true" [results]="newSubscriptionsGraphData">
+        </ngx-charts-line-chart>
+    </ng-container>
+</section>

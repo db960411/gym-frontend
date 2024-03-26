@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Level } from 'src/app/interface/Level';
@@ -20,11 +20,12 @@ export class ProfileComponent implements OnInit {
   profileData$!: Observable<User | any>;
   createProfileError$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   createProfileErrorMessage!: string;
-  userDisplayName!: string;
+  userDisplayName!: string | undefined;
   submitted!: boolean;
   fitnessGoals!: string; 
   userInformation!: any
   toggleOpenProfileImageForm!: boolean;
+  toggleEditProfile = false;
 
 
   constructor(private authService: AuthService, private usersService: UserService, private formBuilder: FormBuilder) {
@@ -62,7 +63,6 @@ export class ProfileComponent implements OnInit {
         this.usersService.userHasCreatedProfile$.next(true);
         this.submitted = true;
         this.fitnessGoals = resp.profileDto.fitnessGoals;
-        console.log(resp.profileDto.fitnessGoals);
         const existingUserInfo = localStorage.getItem('userInfo');
         const userInfo = existingUserInfo ? JSON.parse(existingUserInfo) : {};
         localStorage.setItem("userInfo", JSON.stringify(({email: userInfo.email, displayName: resp.profileDto.displayName})));
@@ -103,6 +103,10 @@ export class ProfileComponent implements OnInit {
     this.submitted = false;
   }
 
+  handleSubmittedEditProfileForm() {
+    this.toggleEditProfile = false;
+  }
+
   getProfileInformation() {
     this.usersService.checkUserProfileStatus();
     this.profileData$ = this.usersService.profileData$;
@@ -122,7 +126,11 @@ export class ProfileComponent implements OnInit {
   openProfileImageForm(): void {
     this.toggleOpenProfileImageForm = !this.toggleOpenProfileImageForm;
   }
-
+  
+  toggleEditingProfile(): void {
+    this.toggleEditProfile = !this.toggleEditProfile;
+  }
+  
   onSubmitImageForm() {
     if (this.profileImageForm.valid) {
       const imageUrl = this.profileImageForm.value.profileImageUrl;

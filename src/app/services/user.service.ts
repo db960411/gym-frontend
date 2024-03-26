@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Router } from '@angular/router';
 import { User } from '../interface/User';
-import { AuthService } from './auth.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +12,7 @@ export class UserService {
   profileData$ = new BehaviorSubject<User | null>(null);
   loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private jwtHelper: JwtHelperService, private authService: AuthService, private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   checkUserProfileStatus(): void {
     this.loading$.next(true);
@@ -29,8 +25,6 @@ export class UserService {
       )
       .subscribe({
         next: (res) => {
-          console.log(res);
-          
           if (res && res.profileDto != null) {
             this.userHasCreatedProfile$.next(true);
             this.profileData$.next(res.profileDto);
@@ -62,5 +56,20 @@ export class UserService {
         })
       );
   }
+
+    updateProfile(profileForm: any): Observable<any> {
+      return this.http.post<any>(`${environment.apiUrl}/update-profile`, profileForm)
+        .pipe(
+          tap((res: any) => {
+            this.profileData$.next(res);
+            console.log(this.profileData$)
+          }),
+          catchError(error => {
+            console.error('Error updating profile:', error);
+            return error;
+          })
+        );
+}
+
 
 }

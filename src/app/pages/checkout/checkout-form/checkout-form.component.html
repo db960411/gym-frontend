@@ -1,16 +1,18 @@
 <ng-container *ngIf="!submitted;">
     <div id="card-element" class="checkout-form">
-        <form (ngSubmit)="submitPayment()">
+        <form (ngSubmit)="submitPayment()" id="payment-form">
             <div *ngIf="error" id="card-errors" role="alert">
                 {{ errorMessage }}
             </div>
 
             <div class="button-container">
-                <button [disabled]="submitting || !authorised">
-                    <mat-progress-spinner *ngIf="submitting" mode="indeterminate"></mat-progress-spinner>
-                    {{ submitting ? 'Submitting...' : 'Pay now' }}
-                </button>
+                <button>hej</button>
             </div>
         </form>
     </div>
+
+    <button (click)="submitPayment()" *ngIf="!submitted" type="submit" [disabled]="submitting || !authorised">
+        <mat-progress-spinner *ngIf="submitting" mode="indeterminate"></mat-progress-spinner>
+        {{ submitting ? 'Submitting...' : 'Pay now' }}
+    </button>
 </ng-container>

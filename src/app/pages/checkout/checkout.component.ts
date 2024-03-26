@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingsService } from 'src/app/services/settings/settings.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class CheckoutComponent implements OnInit {
   subscriptionType!: string;
   userHasBeenSubscribed!: boolean;
 
-  constructor(private subscriptionService: SubscriptionService, private settingsService: SettingsService, private toastrService: ToastrService) {
+  constructor(private subscriptionService: SubscriptionService, private toastrService: ToastrService) {
     this.submitted = false;
     this.authorised = false;
   }
@@ -26,7 +25,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscriptionService.getSubscriptionStatus().subscribe({
-      next: (response: any) => {
+      next: (response) => {
           if (response.verified_email) {
             this.authorised = true;
           }
@@ -34,7 +33,7 @@ export class CheckoutComponent implements OnInit {
             this.subscriptionType = response.subscriptionType;
           }
       },
-      error: (error: any) => {
+      error: (error) => {
         console.log(error);
       }
     }

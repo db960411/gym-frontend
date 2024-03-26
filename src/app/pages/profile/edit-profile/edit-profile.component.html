@@ -1,0 +1,17 @@
+<section>
+    <div *ngIf="error">
+        <p class="error">There was a problem updating profile data... Please try again!</p>
+    </div>
+
+    <ng-container *ngIf="!submittedForm && !error">
+        <form (submit)="updateProfileInformation()" [formGroup]="profileForm">
+            <input type="text" formControlName="weight" placeholder="Edit User Weight" />
+            <input type="text" formControlName="height" placeholder="Edit User Height" />
+            <input type="text" formControlName="language" placeholder="Edit User Language" />
+            <input type="text" formControlName="nationality" placeholder="Edit User Nationality" />
+            <input type="text" formControlName="fitnessGoals" placeholder="Edit User Fitness Goals" />
+
+            <button class="color-btn" type="submit">Update Profile</button>
+        </form>
+    </ng-container>
+</section>

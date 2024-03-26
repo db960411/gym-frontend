@@ -1,0 +1,28 @@
+@import "../../../../styles/colors";
+
+.createBlogPostContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid gray;
+    margin-bottom: 50px;
+}
+
+
+.dashboard-container {
+    padding: 50px 0;
+    width: 100%;
+}
+
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid $primary-border;
+    max-width: unset;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}

@@ -1,7 +1,25 @@
+@import "../../../../src/styles/colors";
+
 .analyticsData-container {
     border-bottom: 1px solid #ccc;
 
     &:nth-last-of-type() {
         border-bottom: none;
+    }
+}
+
+
+.analytics-section {
+    padding: 50px 0;
+}
+
+
+.analytics-container {
+    border-bottom: 1px solid $primary-border;
+    padding: 50px 0;
+
+
+    .green-clr {
+        color: $primary-green;
     }
 }

@@ -10,7 +10,7 @@ import { NewsService } from 'src/app/services/news.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  userEmail!: string;
+  userEmail!: string | any;
   formData!: FormGroup;
   subcribedToNewsLetter!: boolean;
 

@@ -126,6 +126,21 @@
                             </div>
                         </div>
                     </app-fade-in-animation>
+
+                    <button (click)="toggleEditingProfile()"><img src="assets/icons/settings.svg"
+                            alt="settings" /></button>
+
+                    <ng-container *ngIf="toggleEditProfile">
+                        <div class="profileImageForm-container">
+                            <button><img src="assets/icons/close.svg" alt="Close icon" (click)="toggleEditingProfile()"
+                                    (keyup)="toggleEditingProfile()" tabindex="0"></button>
+                            <div class="profileImageForm-inner">
+                                <app-edit-profile profileData="data"
+                                    (submittedFormEvent)="handleSubmittedEditProfileForm()"
+                                    style="width: 100%; margin: 15px 0;"></app-edit-profile>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
 
                 <app-progress></app-progress>
@@ -154,10 +169,11 @@
                         </li>
                     </ul>
                     <p>Ready to get started? Let's crush your fitness goals together!</p>
-                    <button (click)="toggleSubmitted()">See profile</button>
+                    <button (click)="toggleSubmitted()">See profile <img src="assets/icons/arrow-right.svg"
+                            alt="arrow-right" /></button>
                 </div>
 
-                <ng-container *ngIf="!!fitnessGoals" [ngSwitch]="fitnessGoals">
+                <ng-container *ngIf=" !!fitnessGoals" [ngSwitch]="fitnessGoals">
                     <div class="program-card" style="margin-top: 50px;">
 
                         <div class="header">

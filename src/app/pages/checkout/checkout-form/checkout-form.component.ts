@@ -4,12 +4,18 @@ import { ToastrService } from 'ngx-toastr';
 import { from, switchMap } from 'rxjs';
 import { CheckoutService } from 'src/app/services/checkout.service';
 
+
 @Component({
   selector: 'app-checkout-form',
   templateUrl: './checkout-form.component.html',
   styleUrls: ['./checkout-form.component.scss']
 })
 export class CheckoutFormComponent implements OnInit {
+  @Input() authorised!: boolean;
+  @Input() submitted!: boolean;
+  @Output() submittedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() userHasBeenSubscribed!: boolean;
+
   cardOptions: StripeCardElementOptions = {
     style: {
       base: {
@@ -26,15 +32,12 @@ export class CheckoutFormComponent implements OnInit {
       },
     },
   };
-  @Input() authorised!: boolean;
   cardElement: StripeCardElement | null = null;
   error: boolean;
   errorMessage: string | undefined;
   submitting: boolean;
-  @Input() submitted!: boolean;
-  @Output() submittedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
   subscribedEmail: boolean;
-  @Output() userHasBeenSubscribed!: boolean;
 
   constructor(
     private checkoutService: CheckoutService,
@@ -58,6 +61,9 @@ export class CheckoutFormComponent implements OnInit {
 
     this.cardElement = elements.create('card', this.cardOptions);
     this.cardElement.mount('#card-element');
+
+
+    console.log("authorised", this.authorised, "submitting", this.submitting)
   }
 
 async submitPayment(): Promise<void> {

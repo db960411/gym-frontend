@@ -16,11 +16,16 @@
                 <li><a (click)="onNavClick()" routerLink="/" [routerLinkActiveOptions]="{exact: true}"
                         routerLinkActive="active">Home</a>
                 </li>
+                <li><a (click)="onNavClick()" routerLink="/analytics" routerLinkActive="active">Analytics</a></li>
                 <li><a (click)="onNavClick()" routerLink="/about" routerLinkActive="active">About</a></li>
                 <li><a (click)="onNavClick()" routerLink="/blog" routerLinkActive="active">Blog</a></li>
                 <li><a (click)="onNavClick()" routerLink="/profile" routerLinkActive="active">Profile</a></li>
                 <li><a (click)="onNavClick()" routerLink="/plans" routerLinkActive="active">Plans</a></li>
                 <li><a (click)="onNavClick()" routerLink="/social" routerLinkActive="active">Social</a></li>
+                <ng-container *ngIf="userInfo$ | async as userInfo">
+                    <li *ngIf="userInfo?.role === 'ADMIN'"><a (click)="onNavClick()" routerLink="/dashboard"
+                            routerLinkActive="active">Dashboard</a></li>
+                </ng-container>
 
             </ul>
         </nav>
@@ -43,6 +48,14 @@
                                 src="assets/icons/settings.svg" alt="edit icon" /></a>
                     </div>
 
+                    <ng-container *ngIf="notificationsCount <= 0">
+                        <div style="padding: 8px">
+                            <span style="padding-bottom: 15px;">😯 No new notifications...</span>
+                            <hr />
+
+                        </div>
+                    </ng-container>
+
                     <div class="inner_dropdown" *ngFor="let notification of notificationItems">
                         <div class="notification-container">
                             <div class="profile-icon">
@@ -59,9 +72,20 @@
 
                             <span>{{notification?.friendDisplayName | titlecase}}</span>
 
-                            <button style="font-size: 10px; font-weight: 400; color: black;" tabindex=" 0"
-                                routerLinkActive="active" class="btn-transparent"
-                                (click)="viewNotification(notification)">{{notification?.title}}</button>
+
+                            <ng-template *ngIf="notification?.category === 'SOCIAL'; else linkLess">
+                                <button style=" font-size: 10px; font-weight: 400; color: black;" tabindex=" 0"
+                                    routerLinkActive="active" class="btn-transparent"
+                                    (click)="viewNotification(notification)">{{notification?.title}}</button>
+                            </ng-template>
+
+                            <ng-template #linkLess>
+                                <span style="font-size: 10px; font-weight: 400; color: black;"
+                                    *ngIf="notification.title">{{notification.title}}</span>
+                            </ng-template>
+
+                            <span style="font-size: 10px; font-weight: 400; color: black;"
+                                *ngIf="notification.text">{{notification.text}}</span>
 
                             <div *ngIf="!notification.seen" class="activeNotification"></div>
 

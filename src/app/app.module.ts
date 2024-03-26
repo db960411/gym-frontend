@@ -63,6 +63,12 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NotificationsComponent } from './components/settings/notifications/notifications.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { AuthComponent } from './pages/admin/auth/auth.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { UserChartComponent } from './components/charts/user-chart/user-chart.component';
+import { UserAnalyticsChartComponent } from './components/charts/user-analytics-chart/user-analytics-chart.component';
+import { EditProfileComponent } from './pages/profile/edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -107,7 +113,12 @@ import { SliderComponent } from './components/slider/slider.component';
     BlogIdComponent,
     NotesComponent,
     AnalyticsComponent,
-    SliderComponent
+    SliderComponent,
+    AuthComponent,
+    DashboardComponent,
+    UserChartComponent,
+    UserAnalyticsChartComponent,
+    EditProfileComponent,
   ],
   imports: [
     MatSlideToggleModule,
@@ -128,6 +139,7 @@ import { SliderComponent } from './components/slider/slider.component';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMatSelectSearchModule,
+    NgxChartsModule,
     LazyLoadImageModule,
     ToastrModule.forRoot(
       { positionClass: 'toast-bottom-left'}

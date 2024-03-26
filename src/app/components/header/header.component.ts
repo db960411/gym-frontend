@@ -11,7 +11,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements OnInit {
   userInfo$!: Observable<User>;
   dropdownActive = false;
   profileContainerActive$!: Observable<boolean>;
@@ -28,9 +28,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.userInfo$ = this.authService.userInfo$;
     this.authService.fetchUserInfo().subscribe()
     this.checkWindowSize();
-  }
 
-  ngAfterViewInit(): void {
     this.notificationService.getAllNotificationsByUser().subscribe({
       next: (response) => {
         if (response) {

@@ -1,0 +1,34 @@
+<section class="login-section"
+    style="position: relative; background-image: url('assets/login-background.jpg'); background-size: cover; background-position: center center; object-fit: cover; width: 100%; height: 100%;">
+    <div class="sh-container flex-column login-container">
+        <div *ngIf="error;">
+            <p>Something went wrong...</p>
+        </div>
+        <div *ngIf="!error">
+            <ng-container *ngIf="isApproved$ | async; else notApproved">
+                <div>
+                    <p>Approved! 🎉</p>
+                </div>
+            </ng-container>
+
+            <ng-template #notApproved>
+                <div class="sh-form_container xs-container">
+                    <h1>Enter Authentication Code</h1>
+                    <span>The code was sent to your email address.</span>
+                    <form [formGroup]="authenticationForm" (submit)="authenticateApprovalCode()">
+                        <input maxlength="4" type="text" placeholder="1234" formControlName="authenticationCode" />
+                        <button [disabled]="authenticationForm.invalid" type="submit">Submit</button>
+                        <ng-container *ngIf="loadingAuthenticationSubmission$ | async">
+                            <mat-spinner>
+                                <p>Loading...</p>
+                            </mat-spinner>
+                        </ng-container>
+                        <p *ngIf="showDeniedMessage$ | async" class="error">
+                            Wrong code submitted. Please try again.
+                        </p>
+                    </form>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>

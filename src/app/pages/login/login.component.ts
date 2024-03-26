@@ -23,8 +23,6 @@ export class LoginComponent {
     const jsonParsed = JSON.parse(this.predefinedUserInfo || '{}');
     this.predefinedUserInfo = jsonParsed;
 
-    console.log(localStorage.getItem('userInfo'))
-
     this.formData = this.formBuilder.group({
         email: [this.predefinedUserInfo.email, [Validators.required, Validators.minLength(2), Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],

@@ -1,0 +1,85 @@
+<section class="dashboard-container">
+    <div class="sh-container flex-column md-container sm-container">
+        <h1>Admin Dashboard</h1>
+
+        <span>Welcome to your dashboard. From here you can create new blog posts, see statistics etc..</span>
+
+        <div class=" btn-container">
+            <button [class.active]="activeBlogPostCreation" class="color-btn" (click)="activateCreateNewBlogPost()">
+                New Blog Post</button>
+            <button [class.active]="activeNotificationCreation" class="color-btn"
+                (click)="activateCreateNewNotification()">
+                New Global Notification</button>
+        </div>
+
+
+        <div class="sm-container">
+
+            <div class="flex flex-column flex-center">
+                <ng-container *ngIf="activeBlogPostCreation && !submittedBlogPostForm && !submittingBlogPostForm">
+                    <form [formGroup]="blogPostForm">
+                        <input type="url" placeholder="Insert image url here" formControlName="imageUrl" />
+                        <input type="text" placeholder="Insert heading here" formControlName="blogTitle" />
+                        <textarea type="text" placeholder="Insert body here" formControlName="blogBody"></textarea>
+                    </form>
+
+                    <h3>This is how your blog post will be displayed:</h3>
+
+                    <div class="createBlogPostContainer">
+                        <div class="blog-hero">
+                            <img [src]="imageUrl" alt="Your image will be previewed up here" />
+                            <h3 class="hero__title">{{blogTitle}}</h3>
+                        </div>
+                        <div style="padding: 0 30px">
+                            <div class="author-container">
+                            </div>
+                            <p [innerHTML]="blogBody"></p>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit" (click)="submitNewBlogPost()" class="color-btn">Submit blog post</button>
+                    </div>
+
+                </ng-container>
+
+                <ng-container *ngIf="submittingBlogPostForm">
+                    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                </ng-container>
+
+                <ng-container *ngIf="submittedBlogPostForm">
+                    <p>Blog post successfully created! 🥳</p>
+                </ng-container>
+
+            </div>
+
+
+            <div class="flex flex-column flex-center" *ngIf="activeNotificationCreation">
+                <ng-container *ngIf="submittingNotificationForm">
+                    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                </ng-container>
+
+                <ng-container *ngIf="submittedNotificationForm">
+                    <p>Global notification was successfully created! 🎉</p>
+                </ng-container>
+
+                <ng-container *ngIf="!submittingNotificationForm && !submittedNotificationForm">
+                    <form [formGroup]="notificationForm">
+                        <input type="text" formControlName="title" placeholder="Title..." />
+                        <input type="text" formControlName="text" placeholder="Text..." />
+                        <button type="button" (click)="submitNewNotification()" class="color-btn">Submit
+                            Notification</button>
+                    </form>
+                </ng-container>
+            </div>
+
+            <app-user-chart [subscriptionDataLoading]="subscriptionDataLoading"
+                [userRegistrationDataLoading]="userRegistrationDataLoading"
+                [newSubscriptionsGraphData]="newSubscriptionsGraphData" [allUsersGraphData]="allUsersGraphData"
+                [graphData]="newUsersGraphData"></app-user-chart>
+        </div>
+    </div>
+
+    <div>
+    </div>
+</section>

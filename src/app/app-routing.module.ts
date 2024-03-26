@@ -17,6 +17,9 @@ import { BlogComponent } from './pages/blog/blog.component';
 import { BlogIdComponent } from './pages/blog/blog-id/blog-id.component';
 import { NotesComponent } from './pages/notes/notes.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { AuthComponent } from './pages/admin/auth/auth.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { DashboardService } from './services/dashboard.service';
 
 const routes: Routes = [
   { path: '', component: MainComponent, canActivate: [AuthGuardService] },
@@ -33,6 +36,8 @@ const routes: Routes = [
   { path: 'verify/:tokenId', component: VerifyComponent, canActivate: [AuthGuardService] },
   { path: 'blog/:blogId', component: BlogIdComponent, canActivate: [AuthGuardService] },
 
+  { path: 'dashboard', component: DashboardComponent, canActivate: [DashboardService] },
+  { path: 'dashboard/authenticate', component: AuthComponent, canActivate: [AuthGuardService] },
 
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
