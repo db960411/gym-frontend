@@ -51,26 +51,30 @@
                     <ng-container *ngIf="notificationsCount <= 0">
                         <div style="padding: 8px">
                             <span style="padding-bottom: 15px;">😯 No new notifications...</span>
-                            <hr />
-
+                            <div class="border-bottom"></div>
                         </div>
                     </ng-container>
 
                     <div class="inner_dropdown" *ngFor="let notification of notificationItems">
                         <div class="notification-container">
-                            <div class="profile-icon">
+                            <div class="profile-icon"
+                                *ngIf="notification.friendImageUrl || notification.friendDisplayName">
                                 <img *ngIf="!!notification.friendImageUrl; else noFriendImage"
                                     src="{{notification.friendImageUrl}}" alt="friend's image" />
                                 <ng-template #noFriendImage>
-                                    <div class="rounded_profile_letter">
-                                        {{ notification.friendDisplayName ? (notification.friendDisplayName | slice:0:1)
-                                        :
-                                        (notification.friendEmail | slice: 0:1) }}
-                                    </div>
+                                    <ng-container *ngIf="notification.friendDisplayName;">
+                                        <div class="rounded_profile_letter">
+                                            {{ notification.friendDisplayName ? (notification.friendDisplayName |
+                                            slice:0:1)
+                                            :
+                                            (notification.friendEmail | slice: 0:1) }}
+                                        </div>
+                                    </ng-container>
                                 </ng-template>
                             </div>
 
-                            <span>{{notification?.friendDisplayName | titlecase}}</span>
+                            <span *ngIf="notification.friendDisplayName">{{notification?.friendDisplayName |
+                                titlecase}}</span>
 
 
                             <ng-template *ngIf="notification?.category === 'SOCIAL'; else linkLess">

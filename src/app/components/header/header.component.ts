@@ -110,7 +110,15 @@ export class HeaderComponent implements OnInit {
   toggleNotifications(): void {
     this.notificationsActive = !this.notificationsActive;
 
-    if (this.notificationsActive === true && this.notificationsCount > 0) {
+    console.log("hahah", this.notificationsActive)
+
+    if (!this.notificationsActive) {
+      this.updateNotificationsVisibility();
+    }
+  }
+
+  updateNotificationsVisibility(): void {
+    if (this.notificationsActive === false && this.notificationsCount > 0) {
       const filteredNotifications = this.notificationItems.filter(notification => notification.seen === false);
       this.notificationService.updateVisibility(filteredNotifications).subscribe({
         next: () => {
@@ -121,6 +129,5 @@ export class HeaderComponent implements OnInit {
         }
       });
     }
-    
   }
 }

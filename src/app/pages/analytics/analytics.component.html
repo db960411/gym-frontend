@@ -13,7 +13,7 @@
     <div *ngIf="userAnalyticsData$ | async as analyticsData" class="analytics-container">
         <div class="flex flex-align-center">
             <img src="assets/icons/person-rotation.svg" alt="person svg" />
-            <h3 style="margin-left: 15px;">User Weight </h3>
+            <h3 style="margin-left: 15px;">User</h3>
         </div>
         <div *ngFor="let item of analyticsData">
             <p *ngIf="item.initialWeight">Initial Weight: {{item?.initialWeight}}</p>
@@ -27,28 +27,31 @@
     <div *ngIf="exercisesAnalyticsData$ | async as exercisesAnalyticsData" class="analytics-container">
         <div class="flex flex-align-center">
             <img src="assets/icons/exercises-rotation.svg" alt="exercises svg" />
-            <h3 style="margin-left: 15px;">Exercises Analytics</h3>
+            <h3 style="margin-left: 15px;">Exercises</h3>
         </div>
         <div *ngFor="let item of exercisesAnalyticsData">
             <h4>{{item.exerciseTypeName}}</h4>
 
             <p *ngIf="item.initialReps">Initial Reps: {{item.initialReps}}</p>
             <p *ngIf="item.currentReps">Current Reps: {{item.currentReps}}</p>
-            <p *ngIf="item.repsPercentageIncrease">Reps Percentage Increase: <span
-                    class="green-clr">{{item.repsPercentageIncrease.toFixed(1)}}%</span></p>
+            <p *ngIf="item.repsPercentageIncrease">Reps Percentage Difference: <span
+                    [ngClass]="{'negative': item.initialReps > item.currentReps}">{{item.repsPercentageIncrease.toFixed(1)}}%</span>
+            </p>
             <div style="border-bottom: 1px dotted #ccc;"></div>
 
             <p *ngIf="item.initialSets">Initial Sets: {{item.initialSets}}</p>
             <p *ngIf="item.currentSets">Current Sets: {{item.currentSets}}</p>
-            <p *ngIf="item.setsPercentageIncrease">Sets Percentage Increase: <span
-                    class="green-clr">{{item.setsPercentageIncrease.toFixed(1)}}%</span></p>
+            <p *ngIf="item.setsPercentageIncrease">Sets Percentage Difference: <span
+                    [ngClass]="{'negative': item.initialSets > item.currentSets}">{{item.setsPercentageIncrease.toFixed(1)}}%</span>
+            </p>
             <div style="border-bottom: 1px dotted #ccc;"></div>
 
 
             <p *ngIf="item.initialWeight">Initial Weight: {{item.initialWeight}}</p>
             <p *ngIf="item.currentWeight">Current Weight: {{item.currentWeight}}</p>
-            <p *ngIf="item.weightPercentageIncrease">Weight Percentage Increase: <span
-                    class="green-clr">{{item.weightPercentageIncrease.toFixed(1)}}</span>%</p>
+            <p *ngIf="item.weightPercentageIncrease">Weight Percentage Difference: <span
+                    [ngClass]="{'negative': item.initialWeight > item.currentWeight}">{{item.weightPercentageIncrease.toFixed(1)}}</span>%
+            </p>
         </div>
     </div>
 

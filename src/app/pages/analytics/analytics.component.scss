@@ -22,4 +22,13 @@
     .green-clr {
         color: $primary-green;
     }
+
+    span {
+        color: $primary-green;
+
+        &.negative {
+            color: $red;
+        }
+
+    }
 }
